@@ -1,0 +1,614 @@
+---
+title: "The Potential Outcomes Framework"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+
+<script src="/2021-spring-stats2rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<div id="the-pof-in-practice" class="section level1">
+<h1>The POF in practice</h1>
+<p>Let's revisit the example from our slides once again.</p>
+<p>Say we are interested in assessing the premise of Allport's hypothesis about interpersonal contact being conducive to reducing intergroup prejudice.</p>
+<p>We are studying a set of (<span class="math inline">\(n=8\)</span>) students assigned to a dorm room with a person from their own ethnic group <strong>(contact=0)</strong> and from a different group <strong>(contact=1)</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Student (i)</th>
+<th align="center">Prejudice (C=0)</th>
+<th align="center">Prejudice (C=1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">6</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">8</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="center">4</td>
+<td align="center">5</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>Today we will work with the <code>prejudice_df</code> object. The data frame contains the following four variables:</p>
+<ul>
+<li><code>student_id</code>: numeric student identification</li>
+<li><code>prej_0</code>: prejudice level under <span class="math inline">\(Y_{0i}\)</span> (Contact=0)</li>
+<li><code>prej_1</code>: prejudice level under <span class="math inline">\(Y_{1i}\)</span> (Contact=1)</li>
+<li><code>dorm_type</code>: binary for actual treatment state</li>
+</ul>
+<pre><code>## # A tibble: 8 x 4
+##   student_id prej_0 prej_1 dorm_type
+##        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
+## 1          1      6      5         0
+## 2          2      4      2         1
+## 3          3      4      4         0
+## 4          4      6      7         0
+## 5          5      3      1         1
+## 6          6      2      2         1
+## 7          7      8      7         0
+## 8          8      4      5         0</code></pre>
+<hr />
+</div>
+</div>
+<div id="treatment-effects" class="section level1">
+<h1>Treatment Effects</h1>
+<div id="a-individual-treatment-effect-ite" class="section level2">
+<h2>a) Individual Treatment Effect (ITE)</h2>
+<p>We assume from the <em>potential outcomes framework</em> that each subject has a <strong>potential outcome</strong> under both treatment states. Let's take the first student in the list as an example.</p>
+<p><img src="https://user-images.githubusercontent.com/54796579/92996733-20641a80-f50e-11ea-8b55-a17da3d8b36f.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>The figure illustrates the <strong>potential outcomes</strong> for <em>Student 1</em>.</p>
+<p>We see that in a reality where <em>Student 1</em> is assigned to in-group dorm <strong>(contact=0)</strong> their levels of prejudice are <em>6</em>. On the contrary, in a reality where <em>Student 1</em> is assigned to co-ethnic dorm <strong>(contact=1)</strong> their levels of prejudice are <em>5</em>.</p>
+<p>From this illustration, we can gather the <strong>individual treatment effect (ITE)</strong> for student one. The <strong>ITE</strong> is equal to the values under treatment <em>(contact=1)</em> minus to the values without treatment <em>(contact=0)</em> or <span class="math inline">\(ITE = y_{1i} - y_{0i}\)</span>.</p>
+<p><span class="math display">\[ITE = 5 - 6 = -1\]</span></p>
+<p>{{% callout note %}} As it was put in Cunningham's book:</p>
+<p>The ITE is a “comparison of two states of the world” (Cunningham, 2021): individuals are exposed to contact, and not exposed to it.</p>
+{{% /callout %}}
+<p>Evidently, each subject can only be observed in one treatment state at any point in time in real life. This is known as the <strong>fundamental problem</strong> (Holland, 1986) of causal inference. <strong>The Individual Treatment Effect (ITE) in reality is unattainable.</strong> Still, it provides us with a conceptual foundation for causal estimation.</p>
+<p><strong>Exercise:</strong> <em>Our data are coming from a world with perfect information. In that sense, we have both potential outcomes <code>prej_0</code> and <code>prej_1</code>. Can you think of a way to calculate the</em> <strong>ITE</strong> <em>for the eight students with one of the <code>dplyr</code> verbs we learned in the previous section?</em></p>
+{{% spoiler text="Hint" %}}
+<p>Can you think of a way we can use the verb <code>mutate()</code></p>
+{{% /spoiler %}}
+{{% spoiler text="Answer" %}}
+<pre class="r"><code>#you can employ dplyr::mutate() to create the new variable ite
+prejudice_df %&gt;% 
+  dplyr::mutate(ite = prej_1 - prej_0)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+student_id
+</th>
+<th style="text-align:right;">
+prej_0
+</th>
+<th style="text-align:right;">
+prej_1
+</th>
+<th style="text-align:right;">
+dorm_type
+</th>
+<th style="text-align:right;">
+ite
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+-1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+-1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+{{% /spoiler %}}
+<hr />
+</div>
+<div id="average-treatment-effect-ate" class="section level2">
+<h2>Average Treatment Effect (ATE)</h2>
+<p>Normally, we are not interested in the estimates of individual subjects, but rather a population. The <strong>Average Treatment Effect (ATE)</strong> is the difference in the average potential outcomes of the population.</p>
+<p><span class="math display">\[ATE = E(Y_{1i}) - E(Y_{0i})\]</span></p>
+<p>In other words, the <strong>ATE</strong> is the average <strong>ITE</strong> of all the subjects in the population. As you can see, <strong>the ATE as defined in the formula is also not attainable</strong>. Can you think why?</p>
+<p><strong>Exercise:</strong> <em>Since our data are coming from a world with perfect information. Can you think of a way to calculate the</em> <strong>ATE</strong> <em>for the eight students based on what we learned last week?</em></p>
+{{% spoiler text="Hint" %}}
+<p>We have already extracted the ite with <code>mutate()</code>. We know that the the ATE is the averge of every subject's ITE. Do you remember <code>summarize()</code>?</p>
+{{% /spoiler %}}
+{{% spoiler text="Answer" %}}
+<pre class="r"><code>#we know that the ATE is the averge of every subject&#39;s ITE. Do you remember dplyr::summarize()?
+#how can we use the verbs from last week to get the average treatment effect?
+
+prejudice_df %&gt;%
+  dplyr::mutate(ite = prej_1 - prej_0) %&gt;%
+  dplyr::summarize(ate=mean(ite))</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+ate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+-0.5
+</td>
+</tr>
+</tbody>
+</table>
+{{% /spoiler %}}
+<hr />
+</div>
+<div id="the-average-treatment-effect-among-the-treated-and-control-att-and-atc" class="section level2">
+<h2>The Average Treatment Effect Among the Treated and Control (ATT) and (ATC)</h2>
+<p>The names for these two estimates are very self-explanatory. These two estimates are simply the average treatment effects conditional on the group subjects are assigned to.</p>
+<p>The average treatment effect on the treated <strong>ATT</strong> is defined as the difference in the average potential outcomes for those subjects who were treated: <span class="math display">\[ATT = E(Y_{1i}-Y_{0i} | D = 1)\]</span></p>
+<p>The average treatment effect under control <strong>ATC</strong> is defined as the difference in the average potential outcomes for those subjects who were not treated: <span class="math display">\[ATC = E(Y_{1i}-Y_{0i} | D = 0)\]</span></p>
+<p><strong>Exercise:</strong> <em>Since our data are coming from a world with perfect information. Can you think of a way to calculate the</em> <strong>ATT</strong> <em>and</em> <strong>ATC</strong> <em>for the eight students based on what we learned last week?</em></p>
+{{% spoiler text="Hint" %}}
+<p>We have already extracted the ite with <code>mutate()</code>. We know that the ATT and ATC are the average of every subject's ITE grouped by their treatment status. Do you remember how the combination of <code>group_by()</code> and <code>summarize()</code> worked?</p>
+{{% /spoiler %}}
+{{% spoiler text="Answer" %}}
+<pre class="r"><code>#we know that the ATT and ATC are the average of every subject&#39;s ITE grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+#how can we use the verbs from last week to get the average treatment effect on the treated and untreated?
+
+prejudice_df %&gt;%
+  dplyr::mutate(ite = prej_1 - prej_0) %&gt;%
+  dplyr::group_by(dorm_type) %&gt;%
+  dplyr::summarize(treatment_effects=mean(ite))</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+dorm_type
+</th>
+<th style="text-align:right;">
+treatment_effects
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1.333333
+</td>
+</tr>
+</tbody>
+</table>
+{{% /spoiler %}}
+<hr />
+</div>
+<div id="the-naive-average-treatment-effect-nate" class="section level2">
+<h2>The Naive Average Treatment Effect (NATE)</h2>
+<p>So far, we have worked with perfect information. Still, we know that in reality we can only observe subjects in one treatment state. This is the information we <strong>do</strong> have.</p>
+<p><img src="https://user-images.githubusercontent.com/54796579/93014681-527b8800-f5b3-11ea-98f2-200e42f49bd4.png" width="65%" style="display: block; margin: auto;" /></p>
+{{% callout note %}}
+<p>The <strong>Naive Average Treatment Effect (NATE)</strong> is the calculation we can compute based on the observed outcomes.</p>
+{{% /callout %}}
+<p><span class="math display">\[NATE = E(Y_{1i}|D{i}=1) - E(Y_{0i}|D{i}=0)\]</span> *<em>reads in English as: &quot;The expected average outcome under treatment for those treated minus the expected average outcome under control for those not treated&quot;</em></p>
+<p><strong>Exercise:</strong> <em>Can you think of a way to calculate the</em> <strong>NATE</strong> <em>for the eight students employing the new <code>observed_prej</code> variable?</em></p>
+<pre class="r"><code>prejudice_df %&gt;%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0))</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+student_id
+</th>
+<th style="text-align:right;">
+prej_0
+</th>
+<th style="text-align:right;">
+prej_1
+</th>
+<th style="text-align:right;">
+dorm_type
+</th>
+<th style="text-align:right;">
+observed_prej
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+</tbody>
+</table>
+{{% spoiler text="Hint" %}}
+<p>We have already extracted the average observed outcomes depending on the treatment status with <code>mutate()</code>. We know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of <code>group_by()</code> and <code>summarize()</code> worked?</p>
+{{% /spoiler %}}
+{{% spoiler text="Answer" %}}
+<pre class="r"><code>#we know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+prejudice_df %&gt;%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0)) %&gt;%
+  dplyr::group_by(dorm_type) %&gt;%
+  dplyr::summarize(mean(observed_prej))
+  
+#You can just substract the values</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+dorm_type
+</th>
+<th style="text-align:right;">
+mean(observed_prej)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5.600000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.666667
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>You can just substract the values</strong></p>
+{{% /spoiler %}}
+<hr />
+<p><em>Note.</em> The ìfelse() function is a very handy tool to have. It allows us to generate conditional statements. The syntax is the following:</p>
+<pre class="r"><code>ifelse(condition_to_meet, what_to_do_if_met, what_to_do_if_not_met)</code></pre>
+<p><em>In the case of <code>observed_prej</code>, we ask</em> <strong>R</strong> <em>to create a new variable, where if the subject is in a co-ethnic dorm, we print the prejudice value under treatment. If that condition is not met, we print the prejudice value under control.</em></p>
+<hr />
+<hr />
+</div>
+</div>
+<div id="bias" class="section level1">
+<h1>Bias</h1>
+<div id="bias-1" class="section level2">
+<h2>Bias</h2>
+<p>During the lecture, we met two sources of bias:</p>
+<p><img src="https://user-images.githubusercontent.com/54796579/93015117-13e7cc80-f5b7-11ea-8281-dde25922a883.png" width="65%" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="baseline-bias" class="section level2">
+<h2>Baseline bias</h2>
+<p>Baseline bias—also known as selection bias— is difference in expected outcomes in the absence of treatment for the actual treatment and control group. In other words, these are the underlying differences that individuals in either group start off with.</p>
+<hr />
+</div>
+<div id="differential-treatment-effect-bias" class="section level2">
+<h2>Differential treatment effect bias</h2>
+<p>Differential treatment effect bias — also known as Heterogeneous Treatment Effect (HTE) bias — is the difference in returns to treatment (the treatment effect) between the treatment and control group, multiplied by the share of the population in control. In other words, this type of bias relates to the dissimilarities stemming for ways in which individuals in either group are affected differently by the treatment.</p>
+<p><strong>We will let you think about these for the mock assignment</strong></p>
+<p><strong>Exercise:</strong> <em>Since our data are coming from a world with perfect information. Can you think of a way to explore the existence</em> <strong>baseline bias</strong> <em>in our data?</em></p>
+{{% spoiler text="Hint" %}}
+<p>We know that the baseline bias is the difference in average observed outcomes under control grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?</p>
+{{% /spoiler %}}
+<p><strong>Exercise:</strong> <em>Since our data are coming from a world with perfect information. Can you think of a way to explore the existence</em> <strong>differential treatment effect bias</strong> <em>in our data?</em></p>
+{{% spoiler text="Hint" %}}
+<p>We know that the differential treatment effect bias is the difference in difference in the average of every subject's ITE grouped by their treatment status (or the difference between ATT and ATCs). Maybe you can go back an check how to get the average treatment effect on the treated and untreated.</p>
+{{% /spoiler %}}
+</div>
+</div>

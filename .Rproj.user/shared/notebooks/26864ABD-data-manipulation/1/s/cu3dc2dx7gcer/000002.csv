@@ -1,0 +1,12 @@
+"0","knitr::include_graphics(""https://raw.githubusercontent.com/seramirezruiz/hertiestats2/master/inst/tutorials/intro/images/tidy_data.png"")
+"
+"2","Warning in download.file(path, dest, quiet = TRUE) :"
+"2","
+ "
+"2"," downloaded length 0 != reported length 14
+"
+"2","Warning in download.file(path, dest, quiet = TRUE) :"
+"2","
+ "
+"2"," cannot open URL 'https://raw.githubusercontent.com/seramirezruiz/hertiestats2/master/inst/tutorials/intro/images/tidy_data.png': HTTP status was '404 Not Found'
+"

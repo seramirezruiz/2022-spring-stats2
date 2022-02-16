@@ -1,0 +1,337 @@
+---
+title: "The Potential Outcomes Framework"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+  
+```{r, include=FALSE}
+# Custom function to install needed packages, if they're not
+# already installed on your machine
+check.packages <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+    install.packages(new.pkg, dependencies = TRUE,
+                     repos = "https://cran.rstudio.com")
+  sapply(pkg, require, character.only = TRUE)
+}
+
+check.packages(c("tidyverse", "rmarkdown", "knitr", "palmerpenguins", "kableExtra", "DT", "widgetframe"))
+```
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(readr)
+prejudice_df <- readr::read_csv("https://raw.githubusercontent.com/seramirezruiz/hertiestats2/master/data/prejudice.csv")
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# The POF in practice
+
+Let's revisit the example from our slides once again. 
+
+Say we are interested in assessing the premise of Allport's hypothesis about interpersonal contact being conducive to reducing intergroup prejudice. 
+
+We are studying a set of ($n=8$) students assigned to a dorm room with a person from their own ethnic group **(contact=0)** and from a different group **(contact=1)**.
+
+
+| Student (i) | Prejudice (C=0) | Prejudice (C=1) |
+|:-----------:|:---------------:|:---------------:|
+|      1      |        6        |        5        |
+|      2      |        4        |        2        |
+|      3      |        4        |        4        |
+|      4      |        6        |        7        |
+|      5      |        3        |        1        |
+|      6      |        2        |        2        |
+|      7      |        8        |        7        |
+|      8      |        4        |        5        |
+
+---
+
+## Data set
+
+Today we will work with the `prejudice_df` object. The data frame contains the following four variables:
+
+- `student_id`: numeric student identification 
+- `prej_0`: prejudice level under $Y_{0i}$ (Contact=0)
+- `prej_1`: prejudice level under $Y_{1i}$ (Contact=1)
+- `dorm_type`: binary for actual treatment state
+
+```{r}
+prejudice_df
+```
+
+
+---
+
+# Treatment Effects
+
+## a) Individual Treatment Effect (ITE)
+
+We assume from the *potential outcomes framework* that each subject has a **potential outcome** under both treatment states. Let's take the first student in the list as an example. 
+
+
+```{r, echo=FALSE, out.width="65%", fig.align = "center"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/92996733-20641a80-f50e-11ea-8b55-a17da3d8b36f.png")  
+```
+
+The figure illustrates the **potential outcomes** for *Student 1*. 
+
+We see that in a reality where *Student 1* is assigned to in-group dorm **(contact=0)** their levels of prejudice are *6*. On the contrary, in a reality where *Student 1* is assigned to co-ethnic dorm **(contact=1)** their levels of prejudice are *5*.
+
+From this illustration, we can gather the **individual treatment effect (ITE)** for student one. The **ITE** is equal to the values under treatment *(contact=1)* minus to the values without treatment *(contact=0)* or $ITE = y_{1i} - y_{0i}$.
+
+$$ITE = 5 - 6 = -1$$ 
+
+
+`r blogdown::shortcode("callout note")`
+As it was put in Cunningham's book:
+
+The ITE is a “comparison of two states of the world”
+(Cunningham, 2021): individuals are exposed to contact, and
+not exposed to it.
+
+`r blogdown::shortcode("/callout")`
+
+Evidently, each subject can only be observed in one treatment state at any point in time in real life. This is known as the **fundamental problem** (Holland, 1986) of causal inference. **The Individual Treatment Effect (ITE) in reality is unattainable.** Still, it provides us with a conceptual foundation for causal estimation.
+
+**Exercise:** *Our data are coming from a world with perfect information. In that sense, we have both potential outcomes `prej_0` and `prej_1`. Can you think of a way to calculate the* **ITE** *for the eight students with one of the `dplyr` verbs we learned in the previous section?*
+
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+Can you think of a way we can use the verb `mutate()`
+
+`r blogdown::shortcode("/spoiler")`
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+```r
+#you can employ dplyr::mutate() to create the new variable ite
+prejudice_df %>% 
+  dplyr::mutate(ite = prej_1 - prej_0)
+```
+
+```{r}
+#you can employ dplyr::mutate() to create the new variable ite
+prejudice_df %>% 
+  dplyr::mutate(ite = prej_1 - prej_0) %>% knitr::kable() %>% kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+## Average Treatment Effect (ATE)
+
+Normally, we are not interested in the estimates of individual subjects, but rather a population. The **Average Treatment Effect (ATE)** is the difference in the average potential outcomes of the population.
+
+$$ATE = E(Y_{1i}) - E(Y_{0i})$$
+
+In other words, the **ATE** is the average **ITE** of all the subjects in the population. As you can see, **the ATE as defined in the formula is also not attainable**. Can you think why?
+
+**Exercise:** *Since our data are coming from a world with perfect information. Can you think of a way to calculate the* **ATE** *for the eight students based on what we learned last week?*
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+We have already extracted the ite with `mutate()`. We know that the the ATE is the averge of every subject's ITE. Do you remember `summarize()`?
+
+`r blogdown::shortcode("/spoiler")`
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+```r
+#we know that the ATE is the averge of every subject's ITE. Do you remember dplyr::summarize()?
+#how can we use the verbs from last week to get the average treatment effect?
+
+prejudice_df %>%
+  dplyr::mutate(ite = prej_1 - prej_0) %>%
+  dplyr::summarize(ate=mean(ite))
+```
+
+```{r}
+#we know that the ATE is the averge of every subject's ITE. Do you remember dplyr::summarize()?
+#how can we use the verbs from last week to get the average treatment effect?
+
+prejudice_df %>%
+  dplyr::mutate(ite = prej_1 - prej_0) %>%
+  dplyr::summarize(ate=mean(ite)) %>% knitr::kable() %>% kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+## The Average Treatment Effect Among the Treated and Control (ATT) and (ATC)
+
+The names for these two estimates are very self-explanatory. These two estimates are simply the average treatment effects conditional on the group subjects are assigned to.
+
+The average treatment effect on the treated **ATT** is defined as the difference in the average potential outcomes for those subjects who were treated:
+$$ATT = E(Y_{1i}-Y_{0i} | D = 1)$$
+
+The average treatment effect under control **ATC** is defined as the difference in the average potential outcomes for those subjects who were not treated:
+$$ATC = E(Y_{1i}-Y_{0i} | D = 0)$$
+
+**Exercise:** *Since our data are coming from a world with perfect information. Can you think of a way to calculate the* **ATT** *and* **ATC** *for the eight students based on what we learned last week?*
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+We have already extracted the ite with `mutate()`. We know that the ATT and ATC are the average of every subject's ITE grouped by their treatment status. Do you remember how the combination of `group_by()` and `summarize()` worked?
+
+`r blogdown::shortcode("/spoiler")`
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+```r
+#we know that the ATT and ATC are the average of every subject's ITE grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+#how can we use the verbs from last week to get the average treatment effect on the treated and untreated?
+
+prejudice_df %>%
+  dplyr::mutate(ite = prej_1 - prej_0) %>%
+  dplyr::group_by(dorm_type) %>%
+  dplyr::summarize(treatment_effects=mean(ite))
+```
+
+```{r, echo=F}
+#we know that the ATT and ATC are the average of every subject's ITE grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+#how can we use the verbs from last week to get the average treatment effect on the treated and untreated?
+
+prejudice_df %>%
+  dplyr::mutate(ite = prej_1 - prej_0) %>%
+  dplyr::group_by(dorm_type) %>%
+  dplyr::summarize(treatment_effects=mean(ite)) %>% knitr::kable() %>% kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+## The Naive Average Treatment Effect (NATE)
+
+So far, we have worked with perfect information. Still, we know that in reality we can only observe subjects in one treatment state. This is the information we **do** have.
+
+```{r, echo=FALSE, out.width="65%", fig.align = "center"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/93014681-527b8800-f5b3-11ea-98f2-200e42f49bd4.png")  
+```
+
+
+`r blogdown::shortcode("callout note")`
+
+The **Naive Average Treatment Effect (NATE)** is the calculation we can compute based on the observed outcomes.
+
+`r blogdown::shortcode("/callout")`
+
+$$NATE = E(Y_{1i}|D{i}=1) - E(Y_{0i}|D{i}=0)$$
+\**reads in English as: "The expected average outcome under treatment for those treated minus the expected average outcome under control for those not treated"*
+
+
+**Exercise:** *Can you think of a way to calculate the* **NATE** *for the eight students employing the new `observed_prej` variable?*
+
+```r
+prejudice_df %>%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0))
+```
+
+```{r, echo=F}
+#we know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+prejudice_df %>%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0)) %>% knitr::kable() %>% kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+```
+
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+We have already extracted the average observed outcomes depending on the treatment status with `mutate()`. We know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of `group_by()` and `summarize()` worked?
+
+`r blogdown::shortcode("/spoiler")`
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+```r
+#we know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+prejudice_df %>%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0)) %>%
+  dplyr::group_by(dorm_type) %>%
+  dplyr::summarize(mean(observed_prej))
+  
+#You can just substract the values
+```
+
+```{r}
+#we know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+prejudice_df %>%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0)) %>%
+  dplyr::group_by(dorm_type) %>%
+  dplyr::summarize(mean(observed_prej)) %>% knitr::kable() %>% kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+  
+```
+
+**You can just substract the values**
+
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+*Note.* The ìfelse() function is a very handy tool to have. It allows us to generate conditional statements. The syntax is the following:
+
+```r
+ifelse(condition_to_meet, what_to_do_if_met, what_to_do_if_not_met)
+```
+
+*In the case of `observed_prej`, we ask* **R** *to create a new variable, where if the subject is in a co-ethnic dorm, we print the prejudice value under treatment. If that condition is not met, we print the prejudice value under control.*
+
+---
+
+---
+
+# Bias
+
+## Bias
+
+During the lecture, we met two sources of bias:
+
+```{r, echo=FALSE, out.width="65%", fig.align = "center"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/93015117-13e7cc80-f5b7-11ea-8281-dde25922a883.png")  
+```
+
+---
+
+## Baseline bias
+
+Baseline bias—also known as selection bias— is difference in expected outcomes in the absence of treatment for the actual treatment and control group. In other words, these are the underlying differences that individuals in either group start off with.
+
+---
+
+## Differential treatment effect bias
+
+Differential treatment effect bias — also known as Heterogeneous Treatment Effect (HTE) bias — is the difference in returns to treatment (the treatment effect) between the treatment and control group, multiplied by the share of the population in control. In other words, this type of bias relates to the dissimilarities stemming for ways in which individuals in either group are affected differently by the treatment. 
+
+**We will let you think about these for the mock assignment**
+
+**Exercise:** *Since our data are coming from a world with perfect information. Can you think of a way to explore the existence* **baseline bias** *in our data?*
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+We know that the baseline bias is the difference in average observed outcomes under control grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+`r blogdown::shortcode("/spoiler")`
+
+
+**Exercise:** *Since our data are coming from a world with perfect information. Can you think of a way to explore the existence* **differential treatment effect bias** *in our data?*
+
+`r blogdown::shortcode("spoiler", text = "Hint")`
+
+We know that the differential treatment effect bias is the difference in difference in the average of every subject's ITE grouped by their treatment status (or the difference between ATT and ATCs). Maybe you can go back an check how to get the average treatment effect on the treated and untreated.
+
+`r blogdown::shortcode("/spoiler")`

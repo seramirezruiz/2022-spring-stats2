@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>| Tutorials - Spring 2022 |</title>
+    <link>https://seramirezruiz.github.io/2022-spring-stats2/</link>
+      <atom:link href="https://seramirezruiz.github.io/2022-spring-stats2/index.xml" rel="self" type="application/rss+xml" />
+    <description>| Tutorials - Spring 2022 |</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://seramirezruiz.github.io/2022-spring-stats2/images/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_2.png</url>
+      <title>| Tutorials - Spring 2022 |</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/</link>
+    </image>
+    
+    <item>
+      <title>02 - Slides</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/slides/</link>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/slides/</guid>
+      <description>&lt;h2 id=&#34;slides&#34;&gt;Slides&lt;/h2&gt;
+&lt;iframe src=&#34;../w2_foundations.pdf#view=fit&#34; width=&#34;100%&#34; height=&#34;500px&#34;&gt;
+    &lt;/iframe&gt;
+&lt;!--
+## Courses in this program
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure &gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;featured.jpg&#34; &gt;
+
+
+  &lt;img src=&#34;featured.jpg&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The parameter $\mu$ is the mean or expectation of the distribution.
+$\sigma$ is its standard deviation.
+The variance of the distribution is $\sigma^{2}$.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>01 - Slides</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-1/slides/</link>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-1/slides/</guid>
+      <description>&lt;h2 id=&#34;slides&#34;&gt;Slides&lt;/h2&gt;
+&lt;iframe src=&#34;../w1-intro.pdf#view=fit&#34; width=&#34;100%&#34; height=&#34;500px&#34;&gt;
+    &lt;/iframe&gt;
+&lt;!--
+## Courses in this program
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure &gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;featured.jpg&#34; &gt;
+
+
+  &lt;img src=&#34;featured.jpg&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The parameter $\mu$ is the mean or expectation of the distribution.
+$\sigma$ is its standard deviation.
+The variance of the distribution is $\sigma^{2}$.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R and RStudio basics</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-1/foundations/</link>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-1/foundations/</guid>
+      <description>&lt;h2 id=&#34;welcome&#34;&gt;Welcome!&lt;/h2&gt;
+&lt;p&gt;The practical component of the &lt;strong&gt;Statistics II: Statistical Modeling and Causal Inference&lt;/strong&gt; course relies largely in &lt;em&gt;R&lt;/em&gt; programming. Today we will center on some of the necessary skills to perform the assignments for the course.&lt;/p&gt;
+&lt;p&gt;In this tutorial, you will learn to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;identify the some of the basic functionalities of &lt;em&gt;R&lt;/em&gt; and &lt;em&gt;RStudio&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;import data sets into your &lt;em&gt;R&lt;/em&gt; environment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;r-and-rstudio-basics&#34;&gt;R and RStudio: Basics&lt;/h2&gt;
+&lt;h3 id=&#34;the-rstudio-layout&#34;&gt;The RStudio layout&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;RStudio&lt;/em&gt; is an integrated development environment (IDE) for R. Think of &lt;em&gt;RStudio&lt;/em&gt; as a front that allows us to interact, compile, and render R code in a more instinctive way. The following image shows what the standard RStudio interface looks like:&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure &gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;https://user-images.githubusercontent.com/54796579/92997228-088e9580-f512-11ea-9dad-556438c91f86.png&#34; &gt;
+
+
+  &lt;img src=&#34;https://user-images.githubusercontent.com/54796579/92997228-088e9580-f512-11ea-9dad-556438c91f86.png&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Console&lt;/strong&gt;: The &lt;em&gt;console&lt;/em&gt; provides a means to interact directly with &lt;em&gt;R&lt;/em&gt;. You can type some code at the &lt;em&gt;console&lt;/em&gt; and when you press ENTER, R will run that code. Depending on what you type, you may see some output in the &lt;em&gt;console&lt;/em&gt; or if you make a mistake, you may get a warning or an error message.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Script editor&lt;/strong&gt;: You will utilize the &lt;em&gt;script editor&lt;/em&gt; to complete your assignments. The &lt;em&gt;script editor&lt;/em&gt; will be the space where files will be displayed. For example, once you download and open the bi-weekly assignment .Rmd template, it will appear here. The editor is a where you should place code you care about, since the code from the console cannot be saved into a script.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Environment&lt;/strong&gt;: This area holds the abstractions you have created with your code. If you run &lt;code&gt;myresult &amp;lt;- 5+3+2&lt;/code&gt;, the &lt;code&gt;myresult&lt;/code&gt; object will appear there.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Plots and files&lt;/strong&gt;: This area will be where graphic output will be generated. Additionally, if you write a question mark before any function, (i.e. &lt;code&gt;?mean&lt;/code&gt;) the online documentation will be displayed here.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;r-packages&#34;&gt;R Packages&lt;/h3&gt;
+&lt;p&gt;For the most part, &lt;em&gt;R Packages&lt;/em&gt; are collections of code and functions that leverage R programming to expand on the basic functionalities. Last week we met &lt;code&gt;dplyr&lt;/code&gt; that aids R programmers in the process of data cleaning and manipulation. There are a plethora of packages in &lt;em&gt;R&lt;/em&gt; designed to facilite the completion of tasks. In fact, this website is built with the &lt;code&gt;blogdown&lt;/code&gt; package that lets you create websites using &lt;code&gt;RMarkdown&lt;/code&gt; and Hugo&lt;/p&gt;
+&lt;p&gt;Unlike other programming languages, in &lt;em&gt;R&lt;/em&gt; you only need to install a package once. The following times you will only need to &amp;ldquo;require&amp;rdquo; the package. &lt;strong&gt;As a good practice I recommend running the code to install packages only in your R console, not in the code editor.&lt;/strong&gt; You can install a package with the following syntax&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;install.packages(&amp;quot;name_of_your_package&amp;quot;) #note that the quotation marks are mandatory at this stage
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once the package has been installed, you just need to &amp;ldquo;call it&amp;rdquo; every time you want to use it in a file by running:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(&amp;quot;name_of_your_package&amp;quot;) #either of this lines will require the package
+library(name_of_your_package) #library understands the code with, or without, quotation marks
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    &lt;strong&gt;It is extremely important that you do not have any lines installing packages for your assignments because the file will fail to knit&lt;/strong&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h3 id=&#34;working-directory&#34;&gt;Working directory&lt;/h3&gt;
+&lt;p&gt;The &lt;em&gt;working directory&lt;/em&gt; is just a file path on your computer that sets the default location of any files you read into R, or save out of R. Normally, when you open &lt;em&gt;RStudio&lt;/em&gt; it will have a default directory (a folder in your computer). You can check you directory by running &lt;code&gt;getwd()&lt;/code&gt; in your console:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#this is the default in my case
+getwd()
+#[1] &amp;quot;/Users/sebastianramirezruiz&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;When your RStudio is closed and you open a file from your finder in MacOS or file explorer in Windows, the default working directory will be the folder where the file is hosted&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;setting-your-working-directory&#34;&gt;Setting your working directory&lt;/h3&gt;
+&lt;p&gt;You can set you directory manually from RStudio: use the menu to change your working directory under Session &amp;gt; Set Working Directory &amp;gt; Choose Directory.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure &gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;http://www.sthda.com/sthda/RDoc/images/rstudio-change-working-directory.png&#34; &gt;
+
+
+  &lt;img src=&#34;http://www.sthda.com/sthda/RDoc/images/rstudio-change-working-directory.png&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;You can also use the &lt;code&gt;setwd()&lt;/code&gt; function:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;setwd(&amp;quot;/path/to/your/directory&amp;quot;) #in macOS
+setwd(&amp;quot;c:/path/to/your/directory&amp;quot;) #in windows
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;recommended-folder-structure-for-the-class&#34;&gt;Recommended folder structure for the class&lt;/h3&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure &gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;https://user-images.githubusercontent.com/54796579/92937233-5ee4d100-f44b-11ea-9ee7-cc7209b80562.png&#34; &gt;
+
+
+  &lt;img src=&#34;https://user-images.githubusercontent.com/54796579/92937233-5ee4d100-f44b-11ea-9ee7-cc7209b80562.png&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;We recommend you pay close attention to your folder structure. You will receive a new folder for each assignment. Make the folder your working directory when working on the assignment. This folder will be populated with the template .Rmd and the data for the week. When you knit the file, the &lt;strong&gt;.html&lt;/strong&gt; will be created in this folder.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    &lt;strong&gt;We will learn more about the assignment submission workflow next week. Still, avoid changing the name of the files you receive in Github since it will create issues.&lt;/strong&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h3 id=&#34;dealing-with-errors-in-r&#34;&gt;Dealing with errors in R&lt;/h3&gt;
+&lt;p&gt;Errors in R occur when code is used in a way that it is not intended. For example when you try to add two character strings, you will get the following error:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;&amp;quot;hello&amp;quot; + &amp;quot;world&amp;quot;
+Error in &amp;quot;hello&amp;quot; + &amp;quot;world&amp;quot;: non-numeric argument to binary operator
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Normally, when something has gone wrong with your program, &lt;em&gt;R&lt;/em&gt; will notify you of an error in the &lt;strong&gt;console&lt;/strong&gt;. There are errors that will prevent the code from running, while others will only produce &lt;strong&gt;warning&lt;/strong&gt; messages. In the following case, the code will run, but you will notice that the string &lt;strong&gt;&amp;ldquo;three&amp;rdquo;&lt;/strong&gt; is turned into a NA.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;as.numeric(c(&amp;quot;1&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;three&amp;quot;))
+Warning: NAs introduced by coercion
+[1]  1  2 NA
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since we will be utilizing widely used packages and functions in the course of the semester, the errors that you may come across in the process of completing your assignments will be common for other R users. Most errors occur because of typos. A Google search of the error message can take you a long way as well. Most of the times the first entry on &lt;strong&gt;stackoverflow.com&lt;/strong&gt; will solve the problem.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;importing-data&#34;&gt;Importing data&lt;/h2&gt;
+&lt;p&gt;Next we will work with data provided by the &lt;code&gt;palmerpenguins&lt;/code&gt; package; however, most practical applications will require you to work with your own data. In fact, for most assignments, you will be given a data set to work with. As we will see in the coming weeks, data are messy. You know what else is messy? Data formats. You may be acquainted with a couple of them &lt;em&gt;(.csv, .tsv, .xlsx)&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Fortunately for us, the &lt;code&gt;tidyverse&lt;/code&gt; has two packages that make the process of loading data sets from different formats very easy.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;readr&lt;/code&gt;: The goal of &lt;code&gt;readr&lt;/code&gt; is to provide a fast and friendly way to read rectangular data (like &lt;strong&gt;csv, tsv, rds, and fwf&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;haven&lt;/code&gt;: The goal of &lt;code&gt;haven&lt;/code&gt; is to enable R to read and write various data formats used by other statistical packages (like &lt;strong&gt;dta, sas, and sav&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can read more about how to load different types of data in the respective documentations of the packages — &lt;a href=&#34;https://readr.tidyverse.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;readr&lt;/a&gt; and &lt;a href=&#34;https://haven.tidyverse.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;haven&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;For the assignments you will be required to load datasets. You can do that by installing the &lt;code&gt;readr&lt;/code&gt; package and utilizing:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#with readr
+your_data_frame &amp;lt;- readr::read_rds(&amp;quot;path_for_the_file&amp;quot;)
+
+#you can alternatively use a base R option
+your_data_frame &amp;lt;- base::readRDS(&amp;quot;path_for_the_file&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This week&amp;rsquo;s mock assignment will feature a &lt;strong&gt;.tsv&lt;/strong&gt; file. When in doubt just Google &lt;strong&gt;&amp;ldquo;How to load x_format data in R?&amp;quot;&lt;/strong&gt; That will do the trick!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;the-double-colon-operator-&#34;&gt;The double colon operator ::&lt;/h3&gt;
+&lt;p&gt;You may have noted in the previous section that the functions were preceded by their package name and two colons, for example: &lt;code&gt;readr::read_rds()&lt;/code&gt;. The double colon operator &lt;code&gt;::&lt;/code&gt; helps us ensure that we select functions from a particular package. We utilize the operator to explicitly state where the function is coming. This may become even more important when you are doing data analysis as part of a team further in your careers. Though it is likely that this will not be a problem during the course, we can try to employ the following convention &lt;code&gt;package_name::function()&lt;/code&gt; to ensure that we will not encounter errors in our knitting process:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dplyr::select()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;Let&amp;rsquo;s look at what happens when we load &lt;code&gt;tidyverse&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tidyverse)
+
+#── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 #──
+#✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+#✓ tibble  3.0.3     ✓ dplyr   1.0.2
+#✓ tidyr   1.1.2     ✓ stringr 1.4.0
+#✓ readr   1.3.1     ✓ forcats 0.5.0
+#── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() #──
+#x dplyr::filter() masks stats::filter()
+#x dplyr::lag()    masks stats::lag()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You may notice that &lt;em&gt;R&lt;/em&gt; points out some conflicts where some functions are being masked. The default in this machine will become the &lt;code&gt;filter()&lt;/code&gt; from the &lt;code&gt;dplyr&lt;/code&gt; package during this session. If you were to run some code that is based on the &lt;code&gt;filter()&lt;/code&gt; from the &lt;code&gt;stats&lt;/code&gt; package, your code will probably result in errors.&lt;/p&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Data Manipulation</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/data-manipulation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/data-manipulation/</guid>
+      <description>&lt;script src=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2022-spring-stats2rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;h1 id=&#34;1-introduction&#34;&gt;1. Introduction&lt;/h1&gt;
+&lt;h2 id=&#34;welcome&#34;&gt;Welcome!&lt;/h2&gt;
+&lt;p&gt;Welcome to our second tutorial for the Statistics II: Statistical Modeling &amp;amp; Causal Inference (with R) course.&lt;/p&gt;
+&lt;p&gt;The labs are designed to reinforce the material covered during the lectures by introducing you to hands-on applications.&lt;/p&gt;
+&lt;p&gt;The practical nature of our class means that our labs will be data-centered. Throughout our class, we will get acquinted with multiple packages of the &lt;code&gt;tidyverse&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Though we expect that some of you may already know them, the &lt;code&gt;tidyverse&lt;/code&gt; is a collection of R packages that share an underlying design, syntax, and structure. They will definitely make your life easier!!&lt;/p&gt;
+&lt;p&gt;Today, we will start with a brief introduction to data manipulation through the &lt;code&gt;dplyr&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;In this tutorial, you will learn to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;identify the purpose of a set of &lt;code&gt;dplyr&lt;/code&gt; verbs&lt;/li&gt;
+&lt;li&gt;write statements in &lt;strong&gt;tidy&lt;/strong&gt; syntax&lt;/li&gt;
+&lt;li&gt;apply &lt;code&gt;dplyr&lt;/code&gt; verbs to solve your data manipulation challenges&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This tutorial is partly based on &lt;a href=&#34;http://r4ds.had.co.nz/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;em&gt;R for Data Science&lt;/em&gt;&lt;/a&gt;, section 5.2, and &lt;a href=&#34;http://qpolr.com/data.html/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;em&gt;Quantitative Politics with R&lt;/em&gt;&lt;/a&gt;, chapter 3.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;what-we-will-need-today&#34;&gt;What we will need today&lt;/h2&gt;
+&lt;p&gt;We’ll practice some wrangling in &lt;code&gt;dplyr&lt;/code&gt; using data for penguin sizes recorded by Dr. Kristen Gorman and others at several islands in the Palmer Archipelago, Antarctica. Data are originally published in: Gorman KB, Williams TD, Fraser WR (2014) PLoS ONE 9(3): e90081. doi:10.1371/journal.pone.0090081&lt;/p&gt;
+&lt;p&gt;You do &lt;strong&gt;not&lt;/strong&gt; need to import the data to work through this tutorial - the data are already here waiting behind the scenes.&lt;/p&gt;
+&lt;p&gt;But if you &lt;em&gt;do&lt;/em&gt; ever want to use the penguins data outside of this tutorial, they now exist in the &lt;a href=&#34;https://github.com/allisonhorst/palmerpenguins&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;palmerpenguins&lt;/strong&gt;&lt;/a&gt; package in &lt;em&gt;R&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s begin!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;2-data-structure&#34;&gt;2. Data Structure&lt;/h1&gt;
+&lt;h2 id=&#34;tidy-data&#34;&gt;Tidy data&lt;/h2&gt;
+&lt;p&gt;Generally, we will encounter data in a tidy format. Tidy data refers to a way of mapping the structure of a data set. In a tidy data set:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Each variable forms a column.&lt;/li&gt;
+&lt;li&gt;Each observation forms a row.&lt;/li&gt;
+&lt;li&gt;Each type of observational unit forms a table&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/seramirezruiz/hertiestats2/master/inst/tutorials/basics/images/tidy_data.png&#34; width=&#34;70%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;h2 id=&#34;the-penguins-data-set&#34;&gt;The &lt;code&gt;penguins&lt;/code&gt; data set&lt;/h2&gt;
+&lt;p&gt;The 3 species of penguins in this data set are Adelie, Chinstrap and Gentoo. The data set contains 8 variables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;species:&lt;/strong&gt; a factor denoting the penguin species (Adelie, Chinstrap, or Gentoo)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;island:&lt;/strong&gt; a factor denoting the island (in Palmer Archipelago, Antarctica) where observed&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;culmen_length_mm:&lt;/strong&gt; a number denoting length of the dorsal ridge of penguin bill (millimeters)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;culmen_depth_mm:&lt;/strong&gt; a number denoting the depth of the penguin bill (millimeters)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;flipper_length_mm:&lt;/strong&gt; an integer denoting penguin flipper length (millimeters)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;body_mass_g:&lt;/strong&gt; an integer denoting penguin body mass (grams)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sex:&lt;/strong&gt; a factor denoting penguin sex (MALE, FEMALE)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;year&lt;/strong&gt; an integer denoting the year of the record&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/seramirezruiz/hertiestats2/master/inst/tutorials/basics/images/penguins.png&#34; width=&#34;70%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p style=&#34;text-align:right;&#34;&gt;
+*Illustration by @allisonhorst*
+&lt;/p&gt;
+&lt;h2 id=&#34;lets-explore-the-data-set&#34;&gt;Let’s explore the data set.&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;head()&lt;/code&gt; is a function that returns the first couple rows from a data frame. Write the R code required to explore the first observations of the &lt;code&gt;penguins&lt;/code&gt; data set:&lt;/p&gt;
+&lt;p&gt;Notice that when you press ‘Run,’ the &lt;strong&gt;output&lt;/strong&gt; of the code is returned below it! So by pressing ‘Run,’ you’ve run your first &lt;em&gt;R&lt;/em&gt; code of the class!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;head(penguins)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+species
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+island
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+bill\_length\_mm
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+bill\_depth\_mm
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+flipper\_length\_mm
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+body\_mass\_g
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+sex
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+year
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+39.1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+18.7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+181
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3750
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+male
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+39.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+17.4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+186
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+40.3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+18.0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+195
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3250
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+36.7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+19.3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+193
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3450
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Torgersen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+39.3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+20.6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+190
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3650
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+male
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2007
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;3-manipulating-data-with-dplyr&#34;&gt;3. Manipulating data with &lt;code&gt;dplyr&lt;/code&gt;&lt;/h1&gt;
+&lt;h2 id=&#34;what-we-will-learn-today&#34;&gt;What we will learn today&lt;/h2&gt;
+&lt;p&gt;In this tutorial, you’ll learn and practice examples using some functions in &lt;code&gt;dplyr&lt;/code&gt; to work with data. Those are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;select()&lt;/code&gt;: keep or exclude some columns&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;filter()&lt;/code&gt;: keep rows that satisfy your conditions&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mutate()&lt;/code&gt;: add columns from existing data or edit existing columns&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;group_by()&lt;/code&gt;: lets you define groups within your data set&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;summarize()&lt;/code&gt;: get summary statistics&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arrange()&lt;/code&gt;: reorders the rows according to single or multiple variables&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s get to work.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;31-select&#34;&gt;3.1. &lt;code&gt;select()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The first verb (function) we will utilize is &lt;code&gt;select()&lt;/code&gt;. We can employ it to manipulate our data based on columns. If you recall from our initial exploration of the data set there were eight variables attached to every observation. Do you recall them? If you do not, there is no problem. You can utilize &lt;code&gt;names()&lt;/code&gt; to retrieve the names of the variables in a data frame.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;names(penguins)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;species&amp;quot;           &amp;quot;island&amp;quot;            &amp;quot;bill_length_mm&amp;quot;   
+## [4] &amp;quot;bill_depth_mm&amp;quot;     &amp;quot;flipper_length_mm&amp;quot; &amp;quot;body_mass_g&amp;quot;      
+## [7] &amp;quot;sex&amp;quot;               &amp;quot;year&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Say we are only interested in the species, island, and year variables of these data, we can utilize the following syntax:&lt;/p&gt;
+&lt;center&gt;
+select(data, columns)
+&lt;/center&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;The following code chunk would select the species, island, and year variables. What should we do to keep the body_mass_g and sex variables as well?&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dplyr::select(penguins, species, island, year)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid1.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-0&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# you just need to type the names of the columns
+dplyr::select(penguins, species, island, year, body_mass_g, sex)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid2.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    &lt;p&gt;To drop variables, use - before the variable name.&lt;/p&gt;
+&lt;p&gt;For example, &lt;code&gt;select(penguins, -year)&lt;/code&gt; will drop the year column.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;32-filter&#34;&gt;3.2. &lt;code&gt;filter()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The second verb (function) we will employ is &lt;code&gt;filter()&lt;/code&gt;. &lt;code&gt;filter()&lt;/code&gt; lets you use a logical test to extract specific rows from a data frame. To use &lt;code&gt;filter()&lt;/code&gt;, pass it the data frame followed by one or more logical tests. &lt;code&gt;filter()&lt;/code&gt; will return every row that passes each logical test.&lt;/p&gt;
+&lt;p&gt;The more commonly used logical operators are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;==&lt;/code&gt;: Equal to&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;!=&lt;/code&gt;: Not equal to&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;gt;=&lt;/code&gt;: Greater than, greater than or equal to&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;lt;=&lt;/code&gt;: Less than, less than or equal to&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;&lt;/code&gt;, &lt;code&gt;|&lt;/code&gt;: And, or&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Say we are interested in retrieving the observations from the year 2007. We would do:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dplyr::filter(penguins, year == 2007)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid3.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;Can you adapt the code to retrieve all the observations of Chinstrap penguins from 2007 (remember that species contains character units)&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-2&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# you just need to utilize &amp;amp; and type the logical operator for the species
+dplyr::filter(penguins, year == 2007 &amp;amp; species == &amp;quot;Chinstrap&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid4.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;33-the-pipe-operator-&#34;&gt;3.3. The Pipe Operator: &lt;code&gt;%&amp;gt;%&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The pipe, &lt;code&gt;%&amp;gt;%&lt;/code&gt;, comes from the &lt;code&gt;magrittr&lt;/code&gt; package by Stefan Milton Bache. Packages in the &lt;code&gt;tidyverse&lt;/code&gt; load &lt;code&gt;%&amp;gt;%&lt;/code&gt; for you automatically, so you don’t usually load &lt;code&gt;magrittr&lt;/code&gt; explicitly. This will be one of your best friends in &lt;em&gt;R&lt;/em&gt;.
+&amp;gt;&lt;strong&gt;Pipes are a powerful tool for clearly expressing a sequence of multiple operations. Let’s think about baking for a second.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/54796579/92409417-d3b0c600-f140-11ea-8596-561a05586988.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;We can leverage the pipe operator to sequence our code in a logical manner. Can you adapt the following code chunk with the pipe and conditional logical operators we discussed?&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;only_2009 &amp;lt;- dplyr::filter(penguins, year == 2009)
+only_2009_chinstraps &amp;lt;- dplyr::filter(only_2009, species == &amp;quot;Chinstrap&amp;quot;)
+only_2009_chinstraps_species_sex_year &amp;lt;- dplyr::select(only_2009_chinstraps, species, sex, year)
+final_df &amp;lt;- only_2009_chinstraps_species_sex_year
+final_df #to print it in our console
+&lt;/code&gt;&lt;/pre&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-3&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;% #we start off with out df
+  dplyr::filter(year == 2009 &amp;amp; species == &amp;quot;Chinstrap&amp;quot;) %&amp;gt;% #filter
+  dplyr::select(species, sex, year) #select
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid5.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;34-mutate&#34;&gt;3.4. &lt;code&gt;mutate()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;mutate()&lt;/code&gt; lets us create, modify, and delete columns. The most common use for now will be to create new variables based on existing ones. Say we are working with a U.S. American client and they feel more confortable with assessing the weight of the penguins in pounds. We would utilize &lt;code&gt;mutate()&lt;/code&gt; as such:&lt;/p&gt;
+&lt;p&gt;
+&lt;center&gt;
+mutate(new\_var\_name = conditions)
+&lt;/center&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;Can you edit the following code chunk to render a new variable body_mass_kg?&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::mutate(body_mass_lbs = body_mass_g/453.6)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid6.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-4&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::mutate(body_mass_kg = body_mass_g/1000) #grams divided by 1000 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid7.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;35-group_by-and-summarize&#34;&gt;3.5. &lt;code&gt;group_by()&lt;/code&gt; and &lt;code&gt;summarize()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;These two verbs &lt;code&gt;group_by()&lt;/code&gt; and &lt;code&gt;summarize()&lt;/code&gt; tend to go together. When combined , ’summarize()` will create a new data frame. It will have one (or more) rows for each combination of grouping variables; if there are no grouping variables, the output will have a single row summarising all observations in the input. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;summarize()&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::summarize(heaviest_penguin = max(body_mass_g, na.rm = T)) #max() does not know how to deal with NAs very well
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+heaviest\_penguin
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6300
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;group_by()&lt;/code&gt; + &lt;code&gt;summarize()&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::group_by(species) %&amp;gt;%
+  dplyr::summarize(heaviest_penguin = max(body_mass_g, na.rm = T))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+species
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+heaviest\_penguin
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4775
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Chinstrap
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4800
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Gentoo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6300
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;Can you get the weight of the lightest penguin of each species? You can use &lt;code&gt;min()&lt;/code&gt;. What happens when in addition to species you also group by year &lt;code&gt;group_by(species, year)&lt;/code&gt;?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-5&#34;&gt;
+  &lt;summary&gt;Answers&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::group_by(species) %&amp;gt;%
+  dplyr::summarize(lightest_penguin = min(body_mass_g, na.rm = T))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+species
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+lightest\_penguin
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Adelie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2850
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Chinstrap
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2700
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Gentoo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3950
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::group_by(species, year) %&amp;gt;%
+  dplyr::summarize(lightest_penguin = max(body_mass_g, na.rm = T)) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` has grouped output by &#39;species&#39;. You can override using the `.groups` argument.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;36-arrange&#34;&gt;3.6. &lt;code&gt;arrange()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;arrange()&lt;/code&gt; verb is pretty self-explanatory. &lt;code&gt;arrange()&lt;/code&gt; orders the rows of a data frame by the values of selected columns in ascending order. You can use the &lt;code&gt;desc()&lt;/code&gt; argument inside to arrange in descending order. The following chunk arranges the data frame based on the length of the penguins’ bill. You hint tab contains the code for the descending order alternative.&lt;/p&gt;
+&lt;center&gt;
+arrange(variable\_of\_interest)
+&lt;/center&gt;
+&lt;br&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::arrange(bill_length_mm)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid12.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::arrange(desc(bill_length_mm))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid13.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;p&gt;&lt;strong&gt;Activity&lt;/strong&gt;
+&lt;em&gt;Can you create a data frame arranged by body_mass_g of the penguins observed in the “Dream” island?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-6&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins %&amp;gt;%
+  dplyr::filter(island == &amp;quot;Dream&amp;quot;) %&amp;gt;%
+  dplyr::arrange(desc(body_mass_g)) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;../wid14.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Potential Outcomes Framework</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/pof/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/materials/session-2/pof/</guid>
+      <description>
+&lt;script src=&#34;https://seramirezruiz.github.io/2022-spring-stats2/2021-spring-stats2rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;the-pof-in-practice&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The POF in practice&lt;/h1&gt;
+&lt;p&gt;Let&#39;s revisit the example from our slides once again.&lt;/p&gt;
+&lt;p&gt;Say we are interested in assessing the premise of Allport&#39;s hypothesis about interpersonal contact being conducive to reducing intergroup prejudice.&lt;/p&gt;
+&lt;p&gt;We are studying a set of (&lt;span class=&#34;math inline&#34;&gt;\(n=8\)&lt;/span&gt;) students assigned to a dorm room with a person from their own ethnic group &lt;strong&gt;(contact=0)&lt;/strong&gt; and from a different group &lt;strong&gt;(contact=1)&lt;/strong&gt;.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;center&#34;&gt;Student (i)&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Prejudice (C=0)&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Prejudice (C=1)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;data-set&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data set&lt;/h2&gt;
+&lt;p&gt;Today we will work with the &lt;code&gt;prejudice_df&lt;/code&gt; object. The data frame contains the following four variables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;student_id&lt;/code&gt;: numeric student identification&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prej_0&lt;/code&gt;: prejudice level under &lt;span class=&#34;math inline&#34;&gt;\(Y_{0i}\)&lt;/span&gt; (Contact=0)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prej_1&lt;/code&gt;: prejudice level under &lt;span class=&#34;math inline&#34;&gt;\(Y_{1i}\)&lt;/span&gt; (Contact=1)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dorm_type&lt;/code&gt;: binary for actual treatment state&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 8 x 4
+##   student_id prej_0 prej_1 dorm_type
+##        &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1          1      6      5         0
+## 2          2      4      2         1
+## 3          3      4      4         0
+## 4          4      6      7         0
+## 5          5      3      1         1
+## 6          6      2      2         1
+## 7          7      8      7         0
+## 8          8      4      5         0&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;treatment-effects&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Treatment Effects&lt;/h1&gt;
+&lt;div id=&#34;a-individual-treatment-effect-ite&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;a) Individual Treatment Effect (ITE)&lt;/h2&gt;
+&lt;p&gt;We assume from the &lt;em&gt;potential outcomes framework&lt;/em&gt; that each subject has a &lt;strong&gt;potential outcome&lt;/strong&gt; under both treatment states. Let&#39;s take the first student in the list as an example.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/54796579/92996733-20641a80-f50e-11ea-8b55-a17da3d8b36f.png&#34; width=&#34;65%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The figure illustrates the &lt;strong&gt;potential outcomes&lt;/strong&gt; for &lt;em&gt;Student 1&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;We see that in a reality where &lt;em&gt;Student 1&lt;/em&gt; is assigned to in-group dorm &lt;strong&gt;(contact=0)&lt;/strong&gt; their levels of prejudice are &lt;em&gt;6&lt;/em&gt;. On the contrary, in a reality where &lt;em&gt;Student 1&lt;/em&gt; is assigned to co-ethnic dorm &lt;strong&gt;(contact=1)&lt;/strong&gt; their levels of prejudice are &lt;em&gt;5&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;From this illustration, we can gather the &lt;strong&gt;individual treatment effect (ITE)&lt;/strong&gt; for student one. The &lt;strong&gt;ITE&lt;/strong&gt; is equal to the values under treatment &lt;em&gt;(contact=1)&lt;/em&gt; minus to the values without treatment &lt;em&gt;(contact=0)&lt;/em&gt; or &lt;span class=&#34;math inline&#34;&gt;\(ITE = y_{1i} - y_{0i}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ITE = 5 - 6 = -1\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    &lt;p&gt;As it was put in Cunningham&amp;rsquo;s book:&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;The ITE is a “comparison of two states of the world” (Cunningham, 2021): individuals are exposed to contact, and not exposed to it.&lt;/p&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Evidently, each subject can only be observed in one treatment state at any point in time in real life. This is known as the &lt;strong&gt;fundamental problem&lt;/strong&gt; (Holland, 1986) of causal inference. &lt;strong&gt;The Individual Treatment Effect (ITE) in reality is unattainable.&lt;/strong&gt; Still, it provides us with a conceptual foundation for causal estimation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Our data are coming from a world with perfect information. In that sense, we have both potential outcomes &lt;code&gt;prej_0&lt;/code&gt; and &lt;code&gt;prej_1&lt;/code&gt;. Can you think of a way to calculate the&lt;/em&gt; &lt;strong&gt;ITE&lt;/strong&gt; &lt;em&gt;for the eight students with one of the &lt;code&gt;dplyr&lt;/code&gt; verbs we learned in the previous section?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-1&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;Can you think of a way we can use the verb &lt;code&gt;mutate()&lt;/code&gt;&lt;/p&gt;
+&lt;/details&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-2&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#you can employ dplyr::mutate() to create the new variable ite
+prejudice_df %&amp;gt;% 
+  dplyr::mutate(ite = prej_1 - prej_0)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+student_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+prej_0
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+prej_1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dorm_type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+ite
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;average-treatment-effect-ate&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Average Treatment Effect (ATE)&lt;/h2&gt;
+&lt;p&gt;Normally, we are not interested in the estimates of individual subjects, but rather a population. The &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt; is the difference in the average potential outcomes of the population.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ATE = E(Y_{1i}) - E(Y_{0i})\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;In other words, the &lt;strong&gt;ATE&lt;/strong&gt; is the average &lt;strong&gt;ITE&lt;/strong&gt; of all the subjects in the population. As you can see, &lt;strong&gt;the ATE as defined in the formula is also not attainable&lt;/strong&gt;. Can you think why?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Since our data are coming from a world with perfect information. Can you think of a way to calculate the&lt;/em&gt; &lt;strong&gt;ATE&lt;/strong&gt; &lt;em&gt;for the eight students based on what we learned last week?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-3&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;We have already extracted the ite with &lt;code&gt;mutate()&lt;/code&gt;. We know that the the ATE is the averge of every subject&#39;s ITE. Do you remember &lt;code&gt;summarize()&lt;/code&gt;?&lt;/p&gt;
+&lt;/details&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-4&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#we know that the ATE is the averge of every subject&amp;#39;s ITE. Do you remember dplyr::summarize()?
+#how can we use the verbs from last week to get the average treatment effect?
+
+prejudice_df %&amp;gt;%
+  dplyr::mutate(ite = prej_1 - prej_0) %&amp;gt;%
+  dplyr::summarize(ate=mean(ite))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+ate
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-average-treatment-effect-among-the-treated-and-control-att-and-atc&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Average Treatment Effect Among the Treated and Control (ATT) and (ATC)&lt;/h2&gt;
+&lt;p&gt;The names for these two estimates are very self-explanatory. These two estimates are simply the average treatment effects conditional on the group subjects are assigned to.&lt;/p&gt;
+&lt;p&gt;The average treatment effect on the treated &lt;strong&gt;ATT&lt;/strong&gt; is defined as the difference in the average potential outcomes for those subjects who were treated: &lt;span class=&#34;math display&#34;&gt;\[ATT = E(Y_{1i}-Y_{0i} | D = 1)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The average treatment effect under control &lt;strong&gt;ATC&lt;/strong&gt; is defined as the difference in the average potential outcomes for those subjects who were not treated: &lt;span class=&#34;math display&#34;&gt;\[ATC = E(Y_{1i}-Y_{0i} | D = 0)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Since our data are coming from a world with perfect information. Can you think of a way to calculate the&lt;/em&gt; &lt;strong&gt;ATT&lt;/strong&gt; &lt;em&gt;and&lt;/em&gt; &lt;strong&gt;ATC&lt;/strong&gt; &lt;em&gt;for the eight students based on what we learned last week?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-5&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;We have already extracted the ite with &lt;code&gt;mutate()&lt;/code&gt;. We know that the ATT and ATC are the average of every subject&#39;s ITE grouped by their treatment status. Do you remember how the combination of &lt;code&gt;group_by()&lt;/code&gt; and &lt;code&gt;summarize()&lt;/code&gt; worked?&lt;/p&gt;
+&lt;/details&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-6&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#we know that the ATT and ATC are the average of every subject&amp;#39;s ITE grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+#how can we use the verbs from last week to get the average treatment effect on the treated and untreated?
+
+prejudice_df %&amp;gt;%
+  dplyr::mutate(ite = prej_1 - prej_0) %&amp;gt;%
+  dplyr::group_by(dorm_type) %&amp;gt;%
+  dplyr::summarize(treatment_effects=mean(ite))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dorm_type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+treatment_effects
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.000000
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-1.333333
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-naive-average-treatment-effect-nate&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Naive Average Treatment Effect (NATE)&lt;/h2&gt;
+&lt;p&gt;So far, we have worked with perfect information. Still, we know that in reality we can only observe subjects in one treatment state. This is the information we &lt;strong&gt;do&lt;/strong&gt; have.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/54796579/93014681-527b8800-f5b3-11ea-98f2-200e42f49bd4.png&#34; width=&#34;65%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The &lt;strong&gt;Naive Average Treatment Effect (NATE)&lt;/strong&gt; is the calculation we can compute based on the observed outcomes.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[NATE = E(Y_{1i}|D{i}=1) - E(Y_{0i}|D{i}=0)\]&lt;/span&gt; *&lt;em&gt;reads in English as: &amp;quot;The expected average outcome under treatment for those treated minus the expected average outcome under control for those not treated&amp;quot;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Can you think of a way to calculate the&lt;/em&gt; &lt;strong&gt;NATE&lt;/strong&gt; &lt;em&gt;for the eight students employing the new &lt;code&gt;observed_prej&lt;/code&gt; variable?&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prejudice_df %&amp;gt;%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+student_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+prej_0
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+prej_1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dorm_type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+observed_prej
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-8&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;We have already extracted the average observed outcomes depending on the treatment status with &lt;code&gt;mutate()&lt;/code&gt;. We know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of &lt;code&gt;group_by()&lt;/code&gt; and &lt;code&gt;summarize()&lt;/code&gt; worked?&lt;/p&gt;
+&lt;/details&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-9&#34;&gt;
+  &lt;summary&gt;Answer&lt;/summary&gt;
+  &lt;p&gt;&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#we know that the NATE is the difference in average observed outcomes grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?
+
+prejudice_df %&amp;gt;%
+  dplyr::mutate(observed_prej = ifelse(dorm_type == 1, prej_1, prej_0)) %&amp;gt;%
+  dplyr::group_by(dorm_type) %&amp;gt;%
+  dplyr::summarize(mean(observed_prej))
+  
+#You can just substract the values&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dorm_type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+mean(observed_prej)
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5.600000
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.666667
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;You can just substract the values&lt;/strong&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;Note.&lt;/em&gt; The ìfelse() function is a very handy tool to have. It allows us to generate conditional statements. The syntax is the following:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ifelse(condition_to_meet, what_to_do_if_met, what_to_do_if_not_met)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;In the case of &lt;code&gt;observed_prej&lt;/code&gt;, we ask&lt;/em&gt; &lt;strong&gt;R&lt;/strong&gt; &lt;em&gt;to create a new variable, where if the subject is in a co-ethnic dorm, we print the prejudice value under treatment. If that condition is not met, we print the prejudice value under control.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bias&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Bias&lt;/h1&gt;
+&lt;div id=&#34;bias-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Bias&lt;/h2&gt;
+&lt;p&gt;During the lecture, we met two sources of bias:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/54796579/93015117-13e7cc80-f5b7-11ea-8281-dde25922a883.png&#34; width=&#34;65%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;baseline-bias&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Baseline bias&lt;/h2&gt;
+&lt;p&gt;Baseline bias—also known as selection bias— is difference in expected outcomes in the absence of treatment for the actual treatment and control group. In other words, these are the underlying differences that individuals in either group start off with.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;differential-treatment-effect-bias&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Differential treatment effect bias&lt;/h2&gt;
+&lt;p&gt;Differential treatment effect bias — also known as Heterogeneous Treatment Effect (HTE) bias — is the difference in returns to treatment (the treatment effect) between the treatment and control group, multiplied by the share of the population in control. In other words, this type of bias relates to the dissimilarities stemming for ways in which individuals in either group are affected differently by the treatment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;We will let you think about these for the mock assignment&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Since our data are coming from a world with perfect information. Can you think of a way to explore the existence&lt;/em&gt; &lt;strong&gt;baseline bias&lt;/strong&gt; &lt;em&gt;in our data?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-10&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;We know that the baseline bias is the difference in average observed outcomes under control grouped by their treatment status. Do you remember how the combination of dplyr::group_by() and dplyr::summarize() worked?&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;&lt;strong&gt;Exercise:&lt;/strong&gt; &lt;em&gt;Since our data are coming from a world with perfect information. Can you think of a way to explore the existence&lt;/em&gt; &lt;strong&gt;differential treatment effect bias&lt;/strong&gt; &lt;em&gt;in our data?&lt;/em&gt;&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-11&#34;&gt;
+  &lt;summary&gt;Hint&lt;/summary&gt;
+  &lt;p&gt;We know that the differential treatment effect bias is the difference in difference in the average of every subject&#39;s ITE grouped by their treatment status (or the difference between ATT and ATCs). Maybe you can go back an check how to get the average treatment effect on the treated and untreated.&lt;/p&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Slides</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/slides/example/</link>
+      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/slides/example/</guid>
+      <description>&lt;h1 id=&#34;create-slides-in-markdown-with-wowchemy&#34;&gt;Create slides in Markdown with Wowchemy&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://wowchemy.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Wowchemy&lt;/a&gt; | &lt;a href=&#34;https://owchemy.com/docs/managing-content/#create-slides&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Documentation&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Efficiently write slides in Markdown&lt;/li&gt;
+&lt;li&gt;3-in-1: Create, Present, and Publish your slides&lt;/li&gt;
+&lt;li&gt;Supports speaker notes&lt;/li&gt;
+&lt;li&gt;Mobile friendly slides&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;controls&#34;&gt;Controls&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Next: &lt;code&gt;Right Arrow&lt;/code&gt; or &lt;code&gt;Space&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Previous: &lt;code&gt;Left Arrow&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Start: &lt;code&gt;Home&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finish: &lt;code&gt;End&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Overview: &lt;code&gt;Esc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Speaker notes: &lt;code&gt;S&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fullscreen: &lt;code&gt;F&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Zoom: &lt;code&gt;Alt + Click&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/hakimel/reveal.js#pdf-export&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PDF Export&lt;/a&gt;: &lt;code&gt;E&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;code-highlighting&#34;&gt;Code Highlighting&lt;/h2&gt;
+&lt;p&gt;Inline code: &lt;code&gt;variable&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Code block:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;porridge = &amp;quot;blueberry&amp;quot;
+if porridge == &amp;quot;blueberry&amp;quot;:
+    print(&amp;quot;Eating...&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;math&#34;&gt;Math&lt;/h2&gt;
+&lt;p&gt;In-line math: $x + y = z$&lt;/p&gt;
+&lt;p&gt;Block math:&lt;/p&gt;
+&lt;p&gt;$$
+f\left( x \right) = ;\frac{{2\left( {x + 4} \right)\left( {x - 4} \right)}}{{\left( {x + 4} \right)\left( {x + 1} \right)}}
+$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;fragments&#34;&gt;Fragments&lt;/h2&gt;
+&lt;p&gt;Make content appear incrementally&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{{% fragment %}} One {{% /fragment %}}
+{{% fragment %}} **Two** {{% /fragment %}}
+{{% fragment %}} Three {{% /fragment %}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Press &lt;code&gt;Space&lt;/code&gt; to play!&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;fragment &#34; &gt;
+One
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+&lt;strong&gt;Two&lt;/strong&gt;
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+Three
+&lt;/span&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;A fragment can accept two optional parameters:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;class&lt;/code&gt;: use a custom style (requires definition in custom CSS)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;weight&lt;/code&gt;: sets the order in which a fragment appears&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;speaker-notes&#34;&gt;Speaker Notes&lt;/h2&gt;
+&lt;p&gt;Add speaker notes to your presentation&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{% speaker_note %}}
+- Only the speaker can read these notes
+- Press `S` key to view
+{{% /speaker_note %}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Press the &lt;code&gt;S&lt;/code&gt; key to view the speaker notes!&lt;/p&gt;
+&lt;aside class=&#34;notes&#34;&gt;
+  &lt;ul&gt;
+&lt;li&gt;Only the speaker can read these notes&lt;/li&gt;
+&lt;li&gt;Press &lt;code&gt;S&lt;/code&gt; key to view&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/aside&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;black: Black background, white text, blue links (default)&lt;/li&gt;
+&lt;li&gt;white: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;league: Gray background, white text, blue links&lt;/li&gt;
+&lt;li&gt;beige: Beige background, dark text, brown links&lt;/li&gt;
+&lt;li&gt;sky: Blue background, thin dark text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;night: Black background, thick white text, orange links&lt;/li&gt;
+&lt;li&gt;serif: Cappuccino background, gray text, brown links&lt;/li&gt;
+&lt;li&gt;simple: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;solarized: Cream-colored background, dark green text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+
+&lt;section data-noprocess data-shortcode-slide
+  
+      
+      data-background-image=&#34;/media/boards.jpg&#34;
+  &gt;
+
+&lt;h2 id=&#34;custom-slide&#34;&gt;Custom Slide&lt;/h2&gt;
+&lt;p&gt;Customize the slide style and background&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; slide background-image=&amp;quot;/media/boards.jpg&amp;quot; &amp;gt;}}
+{{&amp;lt; slide background-color=&amp;quot;#0000FF&amp;quot; &amp;gt;}}
+{{&amp;lt; slide class=&amp;quot;my-style&amp;quot; &amp;gt;}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;custom-css-example&#34;&gt;Custom CSS Example&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s make headers navy colored.&lt;/p&gt;
+&lt;p&gt;Create &lt;code&gt;assets/css/reveal_custom.css&lt;/code&gt; with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;.reveal section h1,
+.reveal section h2,
+.reveal section h3 {
+  color: navy;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;questions&#34;&gt;Questions?&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/wowchemy/wowchemy-hugo-modules/discussions&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ask&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wowchemy.com/docs/managing-content/#create-slides&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Documentation&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>External Project</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/project/external-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/project/external-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internal Project</title>
+      <link>https://seramirezruiz.github.io/2022-spring-stats2/project/internal-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>https://seramirezruiz.github.io/2022-spring-stats2/project/internal-project/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
