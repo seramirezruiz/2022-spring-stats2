@@ -1,0 +1,528 @@
+---
+title: "Basics of Data Visualization and DAGs in R"
+subtitle: "Our first steps with `ggplot2` and `ggdag`"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    highlight: tango
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r, echo=T, results='hide', warning=FALSE, message=FALSE}
+# Load packages. Install them first, in case you don't have them yet.
+
+library(palmerpenguins) # To get our example's dataset
+library(tidyverse) # To use dplyr functions and the pipe operator when needed
+library(ggplot2) # To visualize data (this package is also loaded by library(tidyverse))
+library(ggdag) # To create our DAGs
+```
+
+---
+
+# Welcome
+
+This week's tutorial will be divided in two broader camps. 
+
+- First, we will learn some basics of data visualization with `ggplot`. 
+- Second, we will start our exploration of **directed acyclic graphs (DAGs)** for causal inference. 
+
+---
+
+# Introduction to `ggplot2`
+
+`ggplot2` is by far the most popular visualization package in **R**. `ggplot2` implements the **grammar of graphics** to render a versatile syntax of creating visuals. The underlying logic of the package relies on deconstructing the structure of graphs (if you are interested in this you can read this [article](http://vita.had.co.nz/papers/layered-grammar.pdf)).  
+
+For the purposes of this introduction to visualization with ggplot, we care about the layered nature of visualizing with `ggplot2`.
+
+```{r, fig.align='center', echo=F, out.width = "70%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/94537983-b94fa100-0243-11eb-8d12-c2e685141092.png")
+```
+
+\**This tutorial is based largely on chapters 7 to 10 from the [QPOLR book](http://qpolr.com/dataviz.html)*
+
+---
+
+## Our building blocks
+
+During this week, we will learn about the following building blocks:
+
+- **Data**: the data frame, or data frames, we will use to plot
+- **Aesthetics**: the variables we will be working with
+- **Geometric objects**: the type of visualization
+- **Theme adjustments**: size, text, colors etc
+
+---
+
+### Data
+
+The first building block for our plots are the data we intend to map. In `ggplot2`, we always have to specify the object where our data lives. In other words, you will always have to specify a data frame, as such:
+
+```r
+ggplot(name_of_your_df)
+```
+
+In the future, we will see how to combine multiple data sources to build a single plot. For now, we will work under the assumption that all your data live in the same object.
+
+---
+
+### Aesthetics
+
+The second building block for our plots are the aesthetics. We need to specify the variables in the data frame we will be using and what role they play. 
+
+To do this we will use the function `aes()` within the `ggplot()` function after the data frame **(remember to add a comma after the data frame)**.
+
+```r
+ggplot(name_of_your_df, aes(x = your_x_axis_variable, y = your_y_axis_variable))
+```
+
+Beyond your axis, you can add more aesthetics representing further dimensions of the data in the two dimensional graphic plane, such as: size, color, fill, to name but a few.
+
+---
+
+### Geometric objects
+
+The third layer to render our graph is a geomethic object. To add one, we need to add a plus (**+**) at the end of the initial line and state the type of geometric object we want to add, for example, `geom_point()` for a scatter plot, or `geom_bar()` for barplots. 
+
+```r
+ggplot(name_of_your_df, aes(x = your_x_axis_variable, y = your_y_axis_variable)) +
+  geom_point()
+```
+
+---
+
+### Theme
+
+At this point our plot may just need some final thouches. We may want to fix the axes names or get rid of the default gray background. To do so, we need to add an additional layer preceded by a plus sign (+). 
+
+If we want to change the names in our axes, we can utilize the `labs()` function. 
+
+We can also employ some of the pre-loaded themes, for example, `theme_minimal()`.
+
+```r
+ggplot(name_of_your_df, aes(x = your_x_axis_variable, y = your_y_axis_variable)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Name you want displayed",
+       y = "Name you want displayed")
+```
+
+---
+
+### Our first plot
+
+For our very first plot using `ggplot2`, we will use the `penguins` data from last week.
+
+We would like to create a scatterplot that illustrates the relationship between the length of a penguin's flipper and their weight.
+
+To do so, we need three of our building blocks: a) data, b) aesthetics, and c) a geometric object (`geom_point()`).
+
+
+```{r, fig.align="center", eval = F}
+ggplot(penguins, aes(x = flipper_length_mm, y=body_mass_g)) +
+  geom_point()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834786-e1fb7d00-75ce-11eb-8a23-81414b76c484.png")
+```
+
+---
+
+<b><p style= "color: #9F24FF"> EXERCISE: <p> </b> Once we have our scatterplot. Can you think of a way to adapt the code to: 
+
+* (1) convey another dimension through color, the species of penguin 
+* (2) change the axes names
+* (3) render the graph with `theme_minimal()`. 
+
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+
+```{r, fig.align="center", eval = F}
+ggplot(penguins, aes(x = flipper_length_mm, y=body_mass_g, color=species)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Flipper Length (mm)",
+       y = "Body mass (g)",
+       color = "Species")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834863-f770a700-75ce-11eb-8fb4-b410dcd830f9.png")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+# Visualizing effectively
+
+## Plotting distributions
+
+If we are interested in plotting distributions of our data, we can leverage geometric objects, such as: 
+
+- `geom_histogram()`: visualizes the distribution of a single continuous variable by dividing the x axis into bins and counting the number of observations in each bin (the default is 30 bins).
+- `geom_density()`: computes and draws kernel density estimate, which is a smoothed version of the histogram.
+- `geom_bar()`: renders barplots and in plotting distributions behaves in a very similar way from `geom_histogram()` (can also be used with two dimensions)
+
+This is a histogram presenting the weight distribution of penguins in our sample. .
+
+```{r, fig.align="center", eval = F}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834871-f93a6a80-75ce-11eb-9a05-2161f6bad744.png")
+```
+
+---
+
+<b><p style= "color: #9F24FF"> EXERCISE: <p> </b> Let's adapt the code of our histogram:
+
++ (1) add `bins = 15` argument (type different numbers)
++ (2) add `fill = "#FF6666"` (type "red", "blue", instead of #FF6666)
++ (3) change the geom to `_density` and `_bar`
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
++ 1. **Histogram with bins argument**
+
+```{r, fig.align="center", eval = F}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(bins = 15)
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834874-f9d30100-75ce-11eb-869e-d25423127afe.png")
+```
+
+
++ 2. **Histogram with bins and fill arguments**
+
+```{r, fig.align="center", eval = F}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(bins = 25, fill = "#FF6666")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834878-fa6b9780-75ce-11eb-833d-8675c65c2d34.png")
+```
+
++ 3. `geom_density()` and `geom_bar()`
+
+```{r, fig.align="center", eval=F}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density(alpha = 0.5, fill = "#FF6666")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834879-fa6b9780-75ce-11eb-8b54-e73421f810fb.png")
+```
+
+
+```{r, fig.align="center", eval=F}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_bar(fill = "#FF6666")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834882-fb042e00-75ce-11eb-8fd0-e309766734c0.png")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+
+---
+
+### Plotting relationships
+
+We can utilize graphs to explore how different variables are related. In fact, we did so before in our scatterplot. We can also use box plots and lines to show some of these relationships.
+
+For example, this boxplot showcasing the distribution of weight by species:
+
+```{r fig.align="center", eval=F}
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(x = "Species",
+       y = "Body mass (g)")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834883-fb042e00-75ce-11eb-9081-f0fe68593721.png")
+```
+
+Or this adaptation of our initial plot with a line of best fit for the observed data by each species:
+
+```{r fig.align='center', eval = F}
+ggplot(penguins, aes(x= flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = F) +
+  theme_minimal() +
+  labs(x = "Length of the flipper",
+       y = "Body mass (g)",
+       color = "Species")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834884-fb042e00-75ce-11eb-8a4a-e10efcd16bd5.png")
+```
+
+---
+
+### Next steps 
+
+Now that you have been introduced to some of the basics of `ggplot2`, **the best way to move forward is to experiment**. As we have discussed before, the **R** community is very open. Perhaps, you can gather some inspiration from the Tidy Tuesday social data project in R where users explore a new dataset each week and share their visualizations and code on Twitter under \#TidyTuesday. You can explore some of the previous visualizations [here](https://shiny.rstudio.com/gallery/tidy-tuesday.html) and try to replicate their code.
+
+*[Here is a curated list](https://github.com/erikgahner/awesome-ggplot2) of awesome `ggplot2` resources.*
+
+---
+
+## Directed Acyclic Graphs (DAGs)
+
+This week we learned that **directed acyclic graphs (DAGs)** are very useful to express our beliefs about relationships among variables. 
+
+DAGs are compatible with the potential outcomes framework. They give us a more convinient and intuitive way of laying out causal models. Next week we will learn how they can help us develop a modeling strategy. 
+
+Today, we will focus on their structure and some DAG basics with the `ggdag` package.
+
+---
+
+### Creating DAGs in R
+
+To create our DAGs in **R** we will use the `ggdag` packages. 
+
+The first thing we will need to do is to create a **dagified** object. That is an object where we state our variables and the relationships they have to each other. Once we have our **dag object** we just need to plot with the `ggdag()` function.
+
+Let's say we want to re-create this DAG:
+
+```{r, fig.align='center', out.width="50%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108728442-e4f06200-7529-11eb-90a9-90ae6bff6f06.png")
+```
+
+We would like to express the following links:
+
+- P -> D
+- D -> M
+- D -> Y
+- M -> Y
+
+To do so in **R** with `ggdag`, we would use the following syntax:
+
+```r
+dag_object <- ggdag::dagify(variable_being_pointed_at ~ variable_pointing,
+                            variable_being_pointed_at ~ variable_pointing,
+                            variable_being_pointed_at ~ variable_pointing)
+```
+
+After this we would just:
+
+```r
+ggdag::ggdag(dag_object)
+```
+
+**Let's plot this DAG**
+
+```{r fig.align='center', eval=F}
+our_dag <- ggdag::dagify(d ~ p,
+                         m ~ d,
+                         y ~ d,
+                         y ~ m)
+
+ggdag::ggdag(our_dag)
+
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834887-fb9cc480-75ce-11eb-8ec0-a2c28143612e.png")
+```
+
+---
+
+<b><p style= "color: #9F24FF"> EXERCISE: <p> </b> See what happens when you add `+ theme_minimal()`, `+ theme_void()`, or `+ theme_dag() to the DAG. What package do you think is laying behind the mappings of `ggdag`?
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
+
+```{r, fig.align="center", eval = F}
+our_dag <- ggdag::dagify(d ~ p,
+                         m ~ d,
+                         y ~ d,
+                         y ~ m)
+
+ggdag::ggdag(our_dag) +
+  theme_minimal()
+
+ggdag::ggdag(our_dag) +
+  theme_void()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834889-fb9cc480-75ce-11eb-9365-bb22788e4a10.png")
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834890-fc355b00-75ce-11eb-95bc-76a89d88095f.png")
+```
+
+`r blogdown::shortcode("/spoiler")`
+
+---
+
+### Polishing our DAGs in R
+
+As you may have seen, the DAG is not rendered with the nodes in the positions we want. 
+
+If you ever want to explicitly tell `ggdag` where to position each node, you can tell it in a Cartesian coordinate plane.
+
+```{r, fig.align="center", out.width="35%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108733908-30f1d580-752f-11eb-8588-241acb7e3dd6.png")
+```
+
+Let's take **P** as the point (0,0):
+
+```{r, fig.align="center", out.width="50%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108735739-2fc1a800-7531-11eb-8764-5e881b120615.png")
+```
+
+
+```{r fig.align='center', eval = F}
+coord_dag <- list(
+  x = c(p = 0, d = 1, m = 2, y = 3),
+  y = c(p = 0, d = 0, m = 1, y = 0)
+)
+
+our_dag <- ggdag::dagify(d ~ p,
+                         m ~ d,
+                         y ~ d,
+                         y ~ m,
+                         coords = coord_dag)
+
+ggdag::ggdag(our_dag) + theme_void()
+
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834892-fc355b00-75ce-11eb-8a50-054ed9c5fffb.png")
+```
+
+
+---
+
+### More complex example:
+
+Let's say we're looking at the relationship between smoking and cardiac arrest. We might assume that smoking causes changes in cholesterol, which causes cardiac arrest:
+
+```{r fig.align='center', eval=F}
+smoking_ca_dag <- ggdag::dagify(cardiacarrest ~ cholesterol,
+                                cholesterol ~ smoking + weight,
+                                smoking ~ unhealthy,
+                                weight ~ unhealthy,
+                                labels = c("cardiacarrest" = "Cardiac\n Arrest", 
+                                           "smoking" = "Smoking",
+                                           "cholesterol" = "Cholesterol",
+                                           "unhealthy" = "Unhealthy\n Lifestyle",
+                                           "weight" = "Weight")
+                                )
+
+ggdag::ggdag(smoking_ca_dag, # the dag object we created
+             text = FALSE, # this means the original names won't be shown
+             use_labels = "label") + # instead use the new names
+  theme_void()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834893-fccdf180-75ce-11eb-8494-937fd8b8da95.png")
+```
+
+In this example, we:
+
++ 1. Used more meaningful variable names 
++ 2. Created a variable that was the result of two variables vs. just one (cholesterol) 
++ 3. Used the "labels" argument to rename our variables (this is useful if your desired final variable name is more than one word)
+
+---
+
+## Common DAG path structures
+
+```{r, fig.align="center", out.width="90%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/94547573-b8bd0780-024f-11eb-9565-03b1d1109c3b.png")
+```
+
+---
+
+```{r fig.align='center', eval=F}
+coord_dag <- list(
+  x = c(d = 0, x = 1, y = 2),
+  y = c(d = 0, x = 1, y = 0)
+)
+
+our_dag <- ggdag::dagify(x ~ d,
+                         y ~ d,
+                         y ~ x,
+                         coords = coord_dag)
+
+ggdag::ggdag(our_dag) + theme_void()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834894-fccdf180-75ce-11eb-89ef-d0e7ecf2719f.png")
+```
+---
+
+<b><p style= "color: #9F24FF"> EXERCISE: <p> </b> Let's adapt the code to make **X** a **confounder** and a **collider**.
+
+
+`r blogdown::shortcode("spoiler", text = "Answer")`
+
++ 1. **X as a confounder**
+
+```{r, fig.align="center", eval=F}
+coord_dag <- list(
+  x = c(d = 0, x = 1, y = 2),
+  y = c(d = 0, x = 1, y = 0)
+)
+
+our_dag <- ggdag::dagify(d ~ x, #line from x to d
+                         y ~ d, #line from d to y
+                         y ~ x, #line from x to y
+                         coords = coord_dag)
+
+ggdag::ggdag(our_dag) + theme_void()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834897-fd668800-75ce-11eb-8ce1-771415724e13.png")
+```
+
++ 2. **X as a collider**
+
+```{r, fig.align="center", eval = F}
+coord_dag <- list(
+  x = c(d = 0, x = 1, y = 2),
+  y = c(d = 0, x = 1, y = 0)
+)
+
+our_dag <- ggdag::dagify(x ~ d, #line from d to x
+                         y ~ d, #line from d to y
+                         x ~ y, #line from y to x
+                         coords = coord_dag)
+
+ggdag::ggdag(our_dag) + theme_void()
+```
+
+```{r, fig.align="center", out.width="70%", echo = F}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/108834900-fd668800-75ce-11eb-9a0c-e9de3be4fd93.png")
+```
+
+`r blogdown::shortcode("/spoiler")`
