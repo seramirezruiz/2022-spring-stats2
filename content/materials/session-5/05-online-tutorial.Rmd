@@ -1,0 +1,465 @@
+---
+title: "Matching in R"
+subtitle: "Our first steps in matching with R"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    highlight: tango
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+```{r, include = F}
+knitr::opts_chunk$set(warning=F, message=F) 
+```
+
+## Welcome
+
+###  Introduction!
+
+Welcome to our fifth tutorial for the Statistics II: Statistical Modeling & Causal Inference (with R) course. 
+
+During this week's lecture you reviewed randomization in experimental setups. You also learned how **matching** can be leveraged to gather causal estimates. 
+
+In this lab session we will:
+
+* Take a step back to review how to compare the means of two groups in **R** 
+* Learn how to perform matching with the `MatchIt` package
+* Illustrate the mechanics of propensity score matching with `gml()`
+
+---
+
+#### Packages
+
+```{r warning=FALSE, message=FALSE}
+# These are the libraries we will use today. Make sure to install them in your console in case you have not done so previously.
+
+library(tidyverse) # To use dplyr functions and the pipe operator when needed
+library(ggplot2) # To create plots (this package is also loaded by library(tidyverse))
+library(purrr) # To repeat code across our list in the balance table purrr::map() (this package is also loaded by library(tidyverse))
+library(broom) # To format regression output
+library(stargazer) # To format model output
+library(knitr) # To create HTML tables with kable()
+library(kableExtra) # To format the HTML tables
+library(MatchIt) # To match
+
+```
+
+---
+
+## Our data
+
+Today we will work with data from the Early Childhood Longitudinal Study (ECLS). 
+
+```{r warning=FALSE, message=FALSE}
+ecls_df <- 
+  readr::read_csv("https://raw.githubusercontent.com/seramirezruiz/stats-ii-lab/master/Session%204/data/ecls.csv") %>% 
+  dplyr::select(-childid, -race, -w3daded,
+                -w3momed, -w3inccat) #drop these columns (-)
+
+names(ecls_df) #checking the names of the variables in the data frame
+```
+
+
+(Example inspired by Simon Ejdemyr: https://sejdemyr.github.io/r-tutorials/statistics/tutorial8.html)
+
+---
+
+#### Reference links:
+
+1. `MatchIt`: https://cran.r-project.org/web/packages/MatchIt/vignettes/matchit.pdf
+2. `Cobalt`: (optional library for matching plots and extra features): https://cran.r-project.org/web/packages/cobalt/vignettes/cobalt_A0_basic_use.html
+3. `kableExtra`: (for formatting tables): https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+4. `Stargazer`: (for formatting model output): https://www.jakeruss.com/cheatsheets/stargazer/
+5. Video overview of matching concepts: https://fr.coursera.org/lecture/crash-course-in-causality/overview-of-matching-JQfPC
+
+---
+
+## Comparing Differences in Means and Balance Tables
+
+As you may have seen in this week's application paper, balance tables feature prominently in work that utilizes matching.
+
+In binary treatment setups, **balance tables** present an overview of the difference in means for the groups accross covariates. 
+
+Let's take the dataset as an example to review how to compare differences in means and build balance tables in **R**. There are multiple ways to explore these kinds of questions. In this lab we will leverage t-tests to check the statistical significance of the difference in means.
+
+In other words, we want to know whether the observed differences in average value of a variable between the two groups or samples can be due to random chance (our null hypothesis). 
+
+---
+
+### T-tests in R
+
+In this case, let's imagine we want to check the statistical significance of the differences in the composition of the catholic and public school samples in the `w3povrty` (under the poverty line) variable.
+
+The general syntax for a t-test is simply as follows. The vectors refer to the variables whose mean you want to compare. 
+
+```r
+t.test(y ~ x, data = your_data)
+```
+
+---
+
+<h4 style ="color:#CC0055;"> Exercise </h4>
+
+```{r}
+t.test(w3povrty ~ catholic, data = ecls_df)
+```
+
++ What does the *group 0* mean tell us?
++ What does the *group 1* mean tell us?
++ Is the difference between catholic school and public school students statistically significant? 
+
+---
+
+### Balance tables in R 
+
+Now let's take a look at how can we create a simple and good looking balance table. The idea here is to compare the mean values of different variables across populations or groups. In our case, let's see whether the catholic and public school groups differ across the covariates in the dataset:
+
+Here is one way to create the table <span style ="color:#CC0055;">**(you can adapt this code for the assignment)**</span>.
+
+```{r}
+# create a list with the covariates
+list_cov <- c("race_white", "race_black", "race_hispanic", "race_asian", "p5numpla",
+              "p5hmage", "p5hdage", "w3daded_hsb", "w3momed_hsb", "w3momscr", "w3dadscr",
+              "w3income", "w3povrty", "p5fstamp", "c5r2mtsc", "c5r2mtsc_std") 
+
+
+ecls_df %>% # our data frame
+  dplyr::summarize_at(list_cov, funs(list(broom::tidy(t.test(. ~ catholic))))) %>% # sequentially run t-tests across all the covariates in the list_cov (note that you have to change the "treatment")
+  purrr::map(1) %>% # maps into a list
+  dplyr::bind_rows(.id='variables') %>% # binds list into a single data frame and names the id column "variables" 
+  dplyr::select(variables, estimate1, estimate2, p.value) %>% # select only the names, group means, and p-values
+  dplyr::mutate_if(is.numeric, round, 3) %>% # round numeric variables to three places
+  knitr::kable(col.names = c("Variable", "(Catholic = 0)", "(Catholic = 1)", "P value")) %>% # create kable table and remane headings
+  kableExtra::kable_styling() # style kable table for our knitted document
+```
+
+---
+
+<h4 style ="color:#CC0055;"> Exercise </h4>
+
++ Are the differences in means significant at conventional levels?
++ What differences strike you from the composition of the two samples?
+
+---
+
+## The Effect of Catholic School on Student Achievement
+
+>In this tutorial we’ll analyze the effect of going to Catholic school, as opposed to public school, on student achievement. Because students who attend Catholic school on average are different from students who attend public school, we will use matching to get more credible causal estimates of Catholic schooling.
+
+---
+
+### Exploration of the data
+
+```{r warning=FALSE, message=FALSE}
+ecls_df %>%
+  dplyr::group_by(catholic) %>%
+  dplyr::summarize(n_students = n(),
+            avg_math = mean(c5r2mtsc_std),
+            std_error = sd(c5r2mtsc_std) / sqrt(n_students)) %>% 
+  round(3) %>% # round the results
+  knitr::kable() %>% # create kable table
+  kableExtra::kable_styling() # view kable table
+```
+
+We can see that we have many more students that did not attend Catholic school than those who did. Also, the Catholic school students have a higher average math score.
+
+---
+
+### Naive Average Treatment Effect (NATE)
+
+We can naively compare the students on their standardized math scores (c5r2mtsc_std). As you remember, the Naive Average Treatment Effect (NATE) is the difference in the means of the observed outcomes of the two groups:
+
+$$NATE = E(y^1 | D = 1) -  E(y^0 | D = 0)$$
+
+In this case, the NATE would be difference between the average math scores. 
+
+---
+
+#### NATE manually
+
+Do you remember what we did in the last section?
+
+We could substract the `avg_math` for the *catholic = 1* and the `avg_math` for the *catholic = 0*
+
+$$NATE = 0.194 - (-0.031)$$
+$$NATE = 0.194 + 0.031 = 0.225$$
+
+---
+
+#### NATE with `t.test()`
+
+```{r}
+t.test(c5r2mtsc_std ~ catholic, data = ecls_df)
+```
+
+---
+
+#### NATE with `lm()`
+
+```{r results="asis"}
+lm(c5r2mtsc_std ~ catholic, data = ecls_df) %>% 
+  stargazer::stargazer(.,type = "html")
+```
+
+---
+
+<h4 style ="color:#CC0055;"> Exercise </h4>
+
++ What parallels do you find between substracting the manually extracted means, the t-test, and the linear regression?
+
+
+---
+
+## Matching with `MatchIt`
+
+`MatchIt` is designed for causal inference with a dichotomous treatment variable and a set of pretreatment control variables. Any number or type of dependent variables can be used. 
+
+We have three steps: 
+
+- Perform the match with `MatchIt::matchit()`
+- Create a new data frame with the matched data with `MatchIt::match.data()` or `MatchIt::get_matches()`
+- Model
+
+The basic syntax is as follows:
+
+```r
+match_process <- MatchIt::matchit(treatment ~ x1 + x2, data = mydata) # NOTE. We include treatment ~ covariates
+matched_df <- MatchIt::get_matches(match_process) #when matching with replacement
+matched_df <- MatchIt::match.data(match_process) #for other cases
+matched_model <- lm(outcome ~ trearment, data = matched_df)
+```
+
+where treat is the dichotomous treatment variable, and x1 and x2 are pre-treatment co-variates, all of which are contained in the data frame *mydata*.  
+
+`r blogdown::shortcode("callout note")`
+**As you can see, the outcome variable is not included in the matching procedure.**
+`r blogdown::shortcode("/callout")`
+
+---
+
+`MatchIt` is capable of using several matching *methods*:
+
+- Exact (*method = "exact"*): The simplest version of matching is exact. This technique matches each treated unit to all possible control units with exactly the same values on all the covariates, forming subclasses such that within each subclass all units (treatment and control) have the same covariate values. 
+
+- Subclassification (*method = "subclass"*): When there are many covariates (or some covariates can take a large number of values),
+finding sufficient exact matches will often be impossible. The goal of subclassification is to form subclasses, such that in each of them the distribution (rather than the exact values) of covariates for the treated and control groups are as similar as possible.
+
+- Nearest Neighbor (*method = "nearest"*): Nearest neighbor matching selects the best control matches for each individual
+in the treatment group. Matching is done using a distance measure (propensity score) specified by the distance option (default = logit).
+
+- As well as optimal matching, full matching, genetic matching, and coarsened exact matching, all of which are detailed in the documentation.
+
+A few additional arguments are important to know about:
+
+- *distance*: this refers to propensity scores. There are many options for how to calculate these within MatchIt.
+
+- *discard*: specifies whether to discard units that fall outside some measure of support of the distance measure (default is "none", discard no units). For example, if some treated units have extremely high propensity scores that are higher than any control units, we could drop those.
+
+- *replace*: a logical value indicating whether each control unit can be matched to more than one treated unit (default is *replace = FALSE*, each control unit is used at most once).
+
+- *ratio*: the number of control units to match to each treated unit (default is *ratio = 1*).
+
+- There are also some optional arguments for most of the matching methods, which you can read about in the documentation if you are interested.
+
+---
+
+### Exact Matching
+
+We can use a combination of the results from our balance table and theory to identify which variables to use for matching. Let's perform an exact match with:
+
+- race_white: Is the student white (1) or not (0)?
+- p5hmage: Mother’s age
+- w3income: Family income
+- p5numpla: Number of places the student has lived for at least 4 months
+- w3momed_hsb: Is the mother’s education level high-school or below (1) or some college or more (0)?
+
+```{r}
+# first we must omit missing values (MatchIt does not allow missings)
+match_data <- ecls_df %>% 
+  dplyr::select(catholic, c5r2mtsc_std, race_white, p5hmage, 
+                w3income, p5numpla, w3momed_hsb) %>% 
+  na.omit() 
+
+
+# perform exact match
+exact_match <- MatchIt::matchit(catholic ~ race_white + p5hmage + w3income +
+                                p5numpla + w3momed_hsb, 
+                                method = "exact", 
+                                data = match_data)
+
+# Try seeing the output in the console with summary(exact_match)
+
+# grab the matched data into a new data frame
+data_exact_match <- MatchIt::match.data(exact_match)
+
+# estimate effect again with new data frame
+exact_match_model <- lm(c5r2mtsc_std ~ catholic, data = data_exact_match)
+
+```  
+
+```{r results="asis"}
+stargazer::stargazer(exact_match_model, type = "html")
+```
+
+Now we can see that the mean in the group that did not attend Catholic school is actually about 0.10 higher than the mean for those who did. The results are statistically significant given that the confidence interval does not contain zero, and we have a fairly small p-value.
+
+---
+
+### Propensity Scores
+
+If we want to perform non-exact matching, we can use **propensity scores**. We can generate these manually using a logit model on the unmatched data set.
+
+When we extract **propensity scores**, we model the propensity of each unit of falling under the treatment group based on their values on a set of covariates. This is how we would do this manually:
+
+
+```{r}
+# create a new column with income by the thousands for more interpretable output
+ecls_df <- ecls_df %>% 
+  dplyr::mutate(w3income_1k = w3income / 1000) 
+
+# estimate logit model
+m_ps <- glm(catholic ~ race_white + w3income_1k + 
+            p5hmage + p5numpla + w3momed_hsb,
+            family = binomial(link = "logit"), # you can also use a probit link here
+            data = ecls_df)
+
+# extract predicted probabilities
+# type = "response" option tells R to output probabilities of the form P(Y = 1|X)
+prs_df <- dplyr::tibble(pr_score = predict(m_ps, type = "response"),
+                     catholic = m_ps$model$catholic) # the actual values
+```
+
+Let's plot the propensity scores by treatment group to explore common support:
+
+```r
+# Histogram
+ggplot(prs_df, aes(x = pr_score, fill = factor(catholic))) +
+  geom_histogram(alpha = 0.5) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(title = "Propensity Score Distribution: Treatment and Control Groups",
+       x = "Propensity Score",
+       y = "Count",
+       fill = "Catholic School Attendance")
+```
+
+```{r, echo = F, fig.align="center", out.width="85%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/110490691-de004c80-80f0-11eb-9c52-6b036f0c4efb.png")
+```
+
+```r
+# Density plot
+ggplot(prs_df, aes(x = pr_score, fill = factor(catholic))) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(title = "Propensity Score Distribution: Treatment and Control Groups",
+       x = "Propensity Score",
+       y = "Density",
+       fill = "Catholic School Attendance") 
+```
+
+```{r, echo = F, fig.align="center", out.width="85%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/110490704-df317980-80f0-11eb-85d6-e5a1e7d4dc55.png")
+```
+
+```r
+# Jittered point plot
+ggplot(prs_df, aes(x = pr_score, y = factor(catholic), color = factor(catholic))) +
+  geom_jitter() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(title = "Propensity Score Distribution: Treatment and Control Groups",
+       x = "Propensity Score",
+       y = "Group",
+       color = "Catholic School Attendance") 
+
+```
+
+```{r, echo = F, fig.align="center", out.width="85%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/110490710-e062a680-80f0-11eb-94bb-c080d19296ea.png")
+```
+
+---
+
+<h4 style ="color:#CC0055;"> Exercise </h4>
+
++ What do these plots tell us?
+
+---
+
+### Non-Exact Matching
+
+`MatchIt` can generate propensity scores itself, so we don't need to manually go through the process above. Let's try putting together a non-exact matching formula yourself! Try:
+
+- nearest neighbor matching
+- with replacement
+- with a one-to-one ratio
+- on the *match_data* dataset
+
+
+
+```{r}
+one_match <- MatchIt::matchit(catholic ~ race_white + w3income + p5hmage +
+                              p5numpla + w3momed_hsb,
+                              method = "nearest", 
+                              ratio = 1, 
+                              replace = TRUE,
+                              data = match_data)
+
+summary(one_match)
+```
+
+We can interpret the resulting output as follows:
+
+- Summary of balance for all data: Comparison of the means for all the data without matching
+- Summary of balance for matched data: Comparison of means for matched data. Looking for them to become similar.
+- Percent balance improvement: Higher is better, close to 100 is ideal.
+- Sample sizes: How many units were matched in the control/treatment groups. 
+
+Now, let's plot the propensity scores for the treated and untreated units. 
+
+```r
+# simple plot - check out the cobalt package for nicer options, or use ggplot2 to create your own!
+plot(one_match, type = "hist")
+```
+
+```{r, echo = F, fig.align="center", out.width="85%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/110490714-e193d380-80f0-11eb-88ca-b5f8fee948af.png")
+```
+
+
+Let's extract the data from *one_match* and creating a balance table like the one we did before, just this time using the new data. Scroll down for the answer when you're ready.
+
+```{r warning=FALSE, message=FALSE}
+# grab data set
+data_prop_match <- MatchIt::get_matches(one_match)
+
+# create list of covariates for the table
+list_cov <- c("race_white", "p5hmage", "w3income", "p5numpla", "w3momed_hsb")
+
+data_prop_match %>% # our data frame
+  dplyr::summarize_at(list_cov, funs(list(broom::tidy(t.test(. ~ catholic))))) %>% # sequentially run t-tests across all the covariates in the list_cov (note that you have to change the "treatment")
+  purrr::map(1) %>% # maps into a list
+  dplyr::bind_rows(.id='variables') %>% # binds list into a single data frame and names the id column "variables" 
+  dplyr::select(variables, estimate1, estimate2, p.value) %>% # select only the names, group means, and p-values
+  dplyr::mutate_if(is.numeric, round, 3) %>% # round numeric variables to three places
+  knitr::kable(col.names = c("Variable", "Control (Catholic = 0)", "Treat (Catholic = 1)", "P value")) %>% # create kable table and rename headings
+  kableExtra::kable_styling() # style kable table for our knitted document
+```
+
+Those means look very close. Hooray.
+
+Finally, let's estimate on the matched data set:
+
+```{r}
+prop_match_model <- lm(c5r2mtsc_std ~ catholic, data = data_prop_match)
+stargazer::stargazer(prop_match_model, type = "text")
+```
+
+As with the exact matching, we can see that those that did not attend Catholic school performed better on the test than those who did. Still, we see that our results in this instance are not statistically significant.
+
