@@ -1,0 +1,356 @@
+---
+title: "Instrumental Variables"
+subtitle: "Our first steps with instrumental variables in R"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    highlight: tango
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(warning=F, message=F) 
+```
+
+## Welcome
+
+###  Introduction!
+
+Welcome to our sixth tutorial for the Statistics II: Statistical Modeling & Causal Inference (with R) course. 
+
+During this week's lecture you reviewed what happens when experiments break due to non-compliance. You were also introduced to **encouragement experimental setups**, and their the observational analogue, **instrumental variables**. Finally, you learned how you can estimate local average treatment effects by breaking out the variation in **D** into two parts. 
+
+In this lab session we will:
+
+* Review how to manually extract the LATE through the **wald estimator**
+* Learn how to perform Two-stage Least Squares regression (2SLS) with `ivreg()` from the `AER` package
+* Illustrate the mechanics of Two-stage Least Squares regression (2SLS) with `lm()`
+
+---
+
+#### Packages
+
+```{r warning=FALSE, message=FALSE}
+# These are the libraries we will use today. Make sure to install them in your console in case you have not done so previously.
+
+library(tidyverse) # To load the collection of packages in the tidyverse
+library(dplyr) # To wrangle our data (this package is also loaded by library(tidyverse))
+library(readr) # To load the .csv data (this package is also loaded by library(tidyverse))
+library(ggplot2) # To create plots (this package is also loaded by library(tidyverse))
+library(tidyr) # To use pivot_wider() (this package is also loaded by library(tidyverse))
+library(ggdag) # To dagify and plot our DAG objects in R
+#library(summarytools) # for ctable()
+library(broom) # To format regression output
+library(janitor) # To examine our data with tabyl()
+library(stargazer) # To format model output
+library(knitr) # To create HTML tables with kable()
+library(kableExtra) # To format the HTML tables
+library(AER) # To run 2SLS with ivreg()
+```
+
+---
+
+## Measuring the effect of mosquito net use on malaria infections
+
+Imagine that the organization you work for is laying out a project to distribute mosquito nets to help combat malaria transmitions.
+
+The funding agency requires a impact evaluation report from your organization. You are in charge of running the evaluation of this program. 
+
+You realize that there are potential <span style = "color:#6600cc;">unobserved counfounders</span> that could bias the observed differences in malaria risk for mosquito net users and non-users. You also think about the ethical considerations of fully randomizing who receives the nets, so you remember your Statistics II lecture on IVs and set up an **encouragement design**. 
+
+Your benificiaries are scattered across ten villages. You decide to randomly select five villages to <span style = "color:#cc0055;">send SMS reminders every night encouraging them to use the mosquito nets</span>. (This example is using simulated data) <br><br>
+
+```{r echo = F, fig.align="center", out.width="90%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/110632472-f2535080-81a7-11eb-9143-60ab36ecff07.png")
+```
+
+---
+
+### Assumptions 
+
+To render credible results for the evaluation of this program, we need to fulfill a certain set of assumtions:
+
+**a) Relevance:** Also known as non-zero average encouragement effect. Does our $Z$ create variation in our $D$? In other words, is the mosquito net use different under the encouragement group? (Statistically testable)
+
+**b) Exogeneity/Ignorability of the instrument:** Potential outcomes and treatments are independent of $Z$. In this case given by out randomization of encouragement by villages.
+
+**c) Exclusion restriction:** The instrument only affects the outcome via the treatment. In other words, there are no alternative paths through which our SMS can have an effect on malaria infections other that the use of the mosquito nets.
+
+**d) Monotonicity:** No defiers. We assume that non-compliers fall in the camp of always- and never-takers. We would not expect subjects who when encouraged would not use the nets, but would use them if they did not recieve the SMS reminder.
+
+---
+
+## Exploring our data
+
+```{r message=F, warning=F}
+evaluation_df <- readr::read_csv("https://raw.githubusercontent.com/seramirezruiz/stats-ii-lab/master/Session%205/data/evaluation_data.csv") # loading simulated data frame of the intervention
+```
+
+You receive the results of your intervention from the M&E officers. There are 1000 inhabitants across the ten villages. This is what the data look like:
+
+- `village_name`: A character string with the name of the village
+- `sms`: A binary marker for the SMS encouragement
+- `net_use`: A binary marker for mosquito net use
+- `malaria`: A binary marker for malaria infection
+
+---
+
+<h4 style = "color:#cc0055;"> Compliance types </h4> 
+
+You may remember, this table from the lecture:
+
+```{r echo=F, fig.align='center', out.width="90%"}
+knitr::include_graphics("https://raw.githubusercontent.com/seramirezruiz/stats-ii-lab/master/Session%205/data/compliance.png")
+```
+
+---
+
+We can crosstabulate our data with `janitor::tabyl()` and the additional features of the `janitor::adorn_*` functions.
+
+Why `janitor::tabyl()`? Because as prospective policy analysts we will do a lot of counting. 
+
+As the [vignette](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html) of the package even puts it: 
+
+Analysts do a lot of counting. Indeed, it’s been said that 'data science is mostly counting things.' But the base R function for counting, `table()`, leaves much to be desired:
+
+- It doesn’t accept data.frame inputs (and thus doesn’t play nicely with the %>% pipe)
+- It doesn’t output data.frames
+- Its results are hard to format. Compare the look and formatting choices of an R table to a Microsoft Excel PivotTable.
+
+This is how it works. Say we are interested in exploring the number of persons in each of the observed strata, we would do:
+
+```{r}
+evaluation_df %>% # your data frame
+  janitor::tabyl(net_use, sms) %>% # the two dimensions for the table (D, Z)
+  janitor::adorn_totals(c("row", "col")) %>% # add totals for rows and cols
+  knitr::kable() %>% # turn into a kable table for nice rendering in HTML
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(c("", "sms" = 2, "")) #add header for sms
+```
+
+*If you want to learn more about the syntax of `tabyl()`, make sure to check the* [vignette](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html)
+
+---
+
+<h4 style = "color:#6600cc;"> Exercise </h4>
+
+<h5">Let's explore the compliance types from this table </h4>
+
+- Where are our compliers and non-compliers? 
+- How many people were encouraged via SMS, but did not use the net? 
+- How many people were not encouraged via SMS, yet they utilized the net?
+
+---
+
+<h4 style = "color:#cc0055;">Average malaria infections across strata</h4> 
+
+We can utilize the `tabyl()` syntax and our knowledge from the grammar of graphics to table and visualize the distribution of malaria on each stratum:
+
+<h5 style = "color:#cc0055;">Table: Count of malaria infections across strata (Y,Z)</h4>
+
+```{r warning=FALSE, message=FALSE}
+evaluation_df %>% # your data frame
+  janitor::tabyl(malaria, sms) %>% # the two dimensions for the table (Y, Z)
+  janitor::adorn_totals(c("row", "col")) %>% # add totals for rows and cols
+  knitr::kable() %>% # turn into a kable table for nice rendering in HTML
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(c("", "sms" = 2, "")) #add header for sms
+```
+
+<h5 style = "color:#cc0055;">Plot: Distribution of malaria infections across strata</h4>
+
+```{r eval = F, fig.align="center"}
+ggplot(evaluation_df, aes(x = factor(sms), 
+                          y = factor(net_use), 
+                          color = factor(malaria))) +
+  geom_jitter() +
+  theme_minimal() +
+  scale_x_discrete(labels = c("SMS = 0", "SMS = 1")) +
+  scale_y_discrete(limits = c("1","0"), labels = c("NET = 1", "NET = 0")) +
+  scale_color_manual(values = c("#CDCDCD", "#CC0055"),
+                       labels = c("Not infected", "Infected")) +
+  labs(x = "Encouragement",
+       y = "Treatment",
+       color = "") +
+  theme(legend.position = "bottom")
+```
+
+```{r echo = F, fig.align="center", out.width="90%"}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/111189828-c3c5e300-85b6-11eb-8a6e-cb958c5fa0bf.png")
+```
+
+---
+
+<h4 style = "color:#6600cc;"> Exercise </h4>
+
++ What insights can we gather from the table and plot?
+
+---
+
+## Exploring our set-up
+
+#### Let's check whether SMS encouragement is a strong instrument
+
+In other words, we are looking at the relevance assumption. Does our SMS encouragement create changes in our mosquito net use?
+
+```{r warning = F, message = F}
+lm(net_use ~ sms, data = evaluation_df) %>%
+  stargazer::stargazer(type = "text")
+```
+
+Economists have established as a "rule-of-thumb" for the case of a single endogenous regressor to be considered a strong instrument should have a **F-statistic** ^[An F statistic is a value you get when you run an ANOVA test or a regression analysis to find out if the means between two populations are significantly different. It’s similar to a t-statistic from a t-test; A-T test will tell you if a single variable is statistically significant and an F test will tell you if a group of variables are jointly significant.] greater than 10. From this regression, we can see that SMS encouragement is a strong instrument. 
+
+Additionally, the substantive read in this case is that only 33% of those who did not receive the SMS utilized the mosquito nets, where as 78% of those who got the SMS encouragement did. <br><br>
+
+---
+
+#### Let's gather a naïve estimate of mosquito net use and malaria infection.
+
+Why do you think we call this a naïve estimate?
+
+```{r warning = F, message = F}
+naive_model <- lm(malaria ~ net_use, data = evaluation_df)
+stargazer::stargazer(naive_model, type = "text")
+```
+
+---
+
+<h4 style = "color:#6600cc;"> Exercise </h4>
+
++ What would our expectations be under the naïve model?
+
+<br><br>
+
+---
+
+#### Let's gather our intent-to-treat effect (ITT) 
+
+This is the effect that our SMS encouragement had on malaria infections. 
+$$ITT = E(Malaria_i|SMS=1) - E(Malaria_i|SMS=0)$$
+
+```{r warning = F, message = F}
+itt_model <- lm(malaria ~ sms, data = evaluation_df)
+stargazer::stargazer(itt_model, type = "text")
+```
+
+---
+
+<h4 style = "color:#6600cc;"> Exercise </h4>
+
++ What does this tell us?
+
+<br><br>
+
+---
+
+## Let's gather out local average treatment effect (LATE)
+
+We have several options for this:
+
+- **Wald Estimator** We can calculate this by hand. Let's try that now using the values from the table we created earlier. We can also calculate the average malaria rates among those who did and did not receive an SMS (no SMS = 0.504, yes SMS = 0.18).
+
+<h5 style = "color:#cc0055;">Table: Observations across strata (D,Z)</h4>
+
+```{r echo = F}
+evaluation_df %>% # your data frame
+  janitor::tabyl(net_use, sms) %>% # the two dimensions for the table (D, Z)
+  janitor::adorn_totals(c("row", "col")) %>% # add totals for rows and cols
+  knitr::kable() %>% # turn into a kable table for nice rendering in HTML
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(c("", "sms" = 2, "")) #add header for sms
+```
+
+<h5 style = "color:#cc0055;">Table: Count of malaria infections across strata (Y,Z)</h4>
+
+```{r echo = F, warning=FALSE, message=FALSE}
+evaluation_df %>% # your data frame
+  janitor::tabyl(malaria, sms) %>% # the two dimensions for the table (Y, Z)
+  janitor::adorn_totals(c("row", "col")) %>% # add totals for rows and cols
+  knitr::kable() %>% # turn into a kable table for nice rendering in HTML
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(c("", "sms" = 2, "")) #add header for sms
+```
+
+---
+
+<h4>Local Average Treatment Effect (LATE) manually</h4>
+
+<br>
+
+>$$LATE = \frac{cov(Y_i,Z_i)}{cov(D_i,Z_i)}$$
+
+**Let's take a look at our numerator**  $cov(Y_i,Z_i)$, also $ITT$<br>
+
+> $E(Y|Z = 1) = \frac{90}{(410+90)} = 0.18$ <br>
+> $E(Y|Z = 0) = \frac{252}{(252+248)} = 0.504$ <br>
+
+**Let's take a look at our denominator**  $cov(D_i,Z_i)$ <br>
+
+> $E(D∣Z = 1) = \frac{390}{(390 + 110)} = 0.78$ <br>
+> $E(D∣Z = 0) = \frac{165}{(165 + 335)} = 0.33$ <br>
+
+**We can calculate our LATE**
+
+>$$LATE =  \frac{(0.18 - 0.504)}{(0.78 - 0.33)} = -0.72$$<br>
+
+---
+
+- **Two-stage Least Squares (2SLS)**. We will learn how to do this with `ivreg()`, which is part of the `AER` package. It fits instrumental-variable regression through two-stage least squares. The syntax is the following:
+
+```r
+ivreg(outcome ~ treatment | instrument, data)
+```
+
+In our case:
+
+```{r}
+late_model <- AER::ivreg(malaria ~ net_use | sms, data = evaluation_df)
+summary(late_model)
+```
+
+---
+
+<h4 style = "color:#6600cc;"> Exercise </h4>
+
+- What is the substantive reading of these results?
+- What would you tell the funding partner in your evaluation report?
+
+<br><br>
+
+---
+
+## Mechanics behind two-stage least squares (2SLS)
+
+```{r, echo = F, fig.align="center"}
+knitr::include_graphics("https://raw.githubusercontent.com/seramirezruiz/stats-ii-lab/master/Session%205/data/instrumental-variables.gif")
+```
+
+What ivreg() is doing in the background is the following:
+
+```{r}
+net_use_hat <- lm(net_use ~ sms, evaluation_df)$fitted.values # get fitted values from first stage (the part of x that is exogenously driven by z)
+summary(lm(evaluation_df$malaria ~ net_use_hat)) # run second stage with instrumented x (careful, the standard errors are wrong; better use ivreg() from AER instead)
+```
+
+<br><br>
+
+---
+
+## Thinking about the validity of instruments
+
+```{r, echo = F, fig.align="center"}
+knitr::include_graphics("https://raw.githubusercontent.com/seramirezruiz/stats-ii-lab/master/Session%205/data/validity_ivs.png")
+```
+
+**We can also adapt the `ivreg()` syntax to accomodate valid conditional instruments:**
+
+```r
+AER::ivreg(Y ~ D + W | Z + W, data = your_df)
+```
+
+<br>
