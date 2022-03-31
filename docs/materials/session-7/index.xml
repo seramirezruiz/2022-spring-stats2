@@ -585,11 +585,11 @@ stargazer::stargazer(ed_achievement, type = &amp;quot;text&amp;quot;)&lt;/code&g
 &lt;h4 style=&#34;color:#cc0065&#34;&gt;
 Binomial test
 &lt;/h4&gt;
-&lt;p&gt;When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let’s check ±500 around the threshold.&lt;/p&gt;
-&lt;p&gt;To gather only the units that reported household incomes from €19500 to €21500, we will use a new function &lt;code&gt;dplyr::between()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let’s check ±500 and ±250 around the threshold.&lt;/p&gt;
+&lt;p&gt;To gather only the units that reported household incomes from €19500 to €20500, we will use a new function &lt;code&gt;dplyr::between()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;dplyr::between()&lt;/code&gt; is a shortcut for &lt;code&gt;x &amp;gt;= left &amp;amp; x &amp;lt;= right&lt;/code&gt;. Let’s look at it at work.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cct_df %&amp;gt;% 
-  dplyr::filter(dplyr::between(hh_income, 19500, 21500)) %&amp;gt;% #filter values between 19500 and 21500
+  dplyr::filter(dplyr::between(hh_income, 19500, 20500)) %&amp;gt;% #filter values between 19500 and 20500
   dplyr::group_by(treatment) %&amp;gt;%
   dplyr::summarize(n = n()) %&amp;gt;%
   knitr::kable() %&amp;gt;%
@@ -611,7 +611,7 @@ n
 0
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-735
+255
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -624,24 +624,76 @@ n
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;We have 300 units just above the threshold and 735 units just below. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.&lt;/p&gt;
+&lt;p&gt;We have 300 units just below the threshold and 255 units just above. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.&lt;/p&gt;
+&lt;p&gt;We can do the same for €19750 to €20250&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cct_df %&amp;gt;% 
+  dplyr::filter(dplyr::between(hh_income, 19750, 20250)) %&amp;gt;% #filter values between 19750 and 20250
+  dplyr::group_by(treatment) %&amp;gt;%
+  dplyr::summarize(n = n()) %&amp;gt;%
+  knitr::kable() %&amp;gt;%
+  kableExtra::kable_styling()&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+treatment
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+115
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+175
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;binom.test(one_of_the_n, total_n, p = probability_of_success)&lt;/code&gt;&lt;/pre&gt;
 &lt;hr /&gt;
-&lt;p&gt;Let’s see:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;binom.test(300, 1035, p = 0.5) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s see what this would say for ±500:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;binom.test(300, 555, p = 0.5) &lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Exact binomial test
 ## 
-## data:  300 and 1035
-## number of successes = 300, number of trials = 1035, p-value &amp;lt; 2.2e-16
+## data:  300 and 555
+## number of successes = 300, number of trials = 555, p-value = 0.06171
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
-##  0.2623620 0.3185488
+##  0.4980565 0.5825909
 ## sample estimates:
 ## probability of success 
-##              0.2898551&lt;/code&gt;&lt;/pre&gt;
+##              0.5405405&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;WHAT DO THESE RESULTS TELL US?&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;According to the test, we see that the observed distributions &lt;strong&gt;deviate&lt;/strong&gt; from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting.&lt;/p&gt;
+&lt;p&gt;According to the test, we see that the observed distributions &lt;strong&gt;do not deviate&lt;/strong&gt; from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results do not present some evidence of sorting in this window.&lt;/p&gt;
+&lt;p&gt;How about ±250?:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;binom.test(115, 290, p = 0.5) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Exact binomial test
+## 
+## data:  115 and 290
+## number of successes = 115, number of trials = 290, p-value = 0.0005095
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.3398404 0.4553997
+## sample estimates:
+## probability of success 
+##              0.3965517&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;WHAT DO THESE RESULTS TELL US?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;According to the test, we see that the observed distributions &lt;strong&gt;deviate&lt;/strong&gt; from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting in this window.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h4 style=&#34;color:#cc0065&#34;&gt;
 McCrary Sorting test

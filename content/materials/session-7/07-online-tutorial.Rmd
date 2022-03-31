@@ -527,38 +527,60 @@ There are a couple of tests researchers can employ. We will learn two ways. Firs
 
 <h4 style="color:#cc0065">Binomial test</h4>
 
-When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let's check ±500 around the threshold.
+When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let's check ±500 and ±250 around the threshold.
 
-To gather only the units that reported household incomes from €19500 to €21500, we will use a new function `dplyr::between()`.
+To gather only the units that reported household incomes from €19500 to €20500, we will use a new function `dplyr::between()`.
 
 `dplyr::between()` is a shortcut for `x >= left & x <= right`. Let's look at it at work.
 
 ```{r}
 cct_df %>% 
-  dplyr::filter(dplyr::between(hh_income, 19500, 21500)) %>% #filter values between 19500 and 21500
+  dplyr::filter(dplyr::between(hh_income, 19500, 20500)) %>% #filter values between 19500 and 20500
   dplyr::group_by(treatment) %>%
   dplyr::summarize(n = n()) %>%
   knitr::kable() %>%
   kableExtra::kable_styling()
 ```
 
-We have 300 units just above the threshold and 735 units just below. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.
+We have 300 units just below the threshold and 255 units just above. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.
+
+We can do the same for €19750 to €20250
+
+```{r}
+cct_df %>% 
+  dplyr::filter(dplyr::between(hh_income, 19750, 20250)) %>% #filter values between 19750 and 20250
+  dplyr::group_by(treatment) %>%
+  dplyr::summarize(n = n()) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling()
+```
+
 
 ```r
 binom.test(one_of_the_n, total_n, p = probability_of_success)
 ```
 ---
 
-Let's see:
+Let's see what this would say for ±500:
 
 ```{r}
-binom.test(300, 1035, p = 0.5) 
+binom.test(300, 555, p = 0.5) 
 ```
 
 **WHAT DO THESE RESULTS TELL US?**
 
-According to the test, we see that the observed distributions **deviate** from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting.
+According to the test, we see that the observed distributions **do not deviate** from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results do not present some evidence of sorting in this window.
 
+
+How about ±250?:
+
+```{r}
+binom.test(115, 290, p = 0.5) 
+```
+
+**WHAT DO THESE RESULTS TELL US?**
+
+According to the test, we see that the observed distributions **deviate** from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting in this window.
 
 ---
 

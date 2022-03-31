@@ -521,11 +521,11 @@ stargazer::stargazer(ed_achievement, type = &quot;text&quot;)</code></pre>
 <h4 style="color:#cc0065">
 Binomial test
 </h4>
-<p>When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let’s check ±500 around the threshold.</p>
-<p>To gather only the units that reported household incomes from €19500 to €21500, we will use a new function <code>dplyr::between()</code>.</p>
+<p>When we apply an exact binomial test. Our interest is to see whether the distribution around the threshold could exist by chance. In this case, let’s check ±500 and ±250 around the threshold.</p>
+<p>To gather only the units that reported household incomes from €19500 to €20500, we will use a new function <code>dplyr::between()</code>.</p>
 <p><code>dplyr::between()</code> is a shortcut for <code>x &gt;= left &amp; x &lt;= right</code>. Let’s look at it at work.</p>
 <pre class="r"><code>cct_df %&gt;% 
-  dplyr::filter(dplyr::between(hh_income, 19500, 21500)) %&gt;% #filter values between 19500 and 21500
+  dplyr::filter(dplyr::between(hh_income, 19500, 20500)) %&gt;% #filter values between 19500 and 20500
   dplyr::group_by(treatment) %&gt;%
   dplyr::summarize(n = n()) %&gt;%
   knitr::kable() %&gt;%
@@ -547,7 +547,7 @@ n
 0
 </td>
 <td style="text-align:right;">
-735
+255
 </td>
 </tr>
 <tr>
@@ -560,24 +560,76 @@ n
 </tr>
 </tbody>
 </table>
-<p>We have 300 units just above the threshold and 735 units just below. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.</p>
+<p>We have 300 units just below the threshold and 255 units just above. We can use this information to run our exact binomial test. We seek to understand if the observed distributions deviate from expected distribution of observations into the two categories.</p>
+<p>We can do the same for €19750 to €20250</p>
+<pre class="r"><code>cct_df %&gt;% 
+  dplyr::filter(dplyr::between(hh_income, 19750, 20250)) %&gt;% #filter values between 19750 and 20250
+  dplyr::group_by(treatment) %&gt;%
+  dplyr::summarize(n = n()) %&gt;%
+  knitr::kable() %&gt;%
+  kableExtra::kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+treatment
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+115
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+175
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>binom.test(one_of_the_n, total_n, p = probability_of_success)</code></pre>
 <hr />
-<p>Let’s see:</p>
-<pre class="r"><code>binom.test(300, 1035, p = 0.5) </code></pre>
+<p>Let’s see what this would say for ±500:</p>
+<pre class="r"><code>binom.test(300, 555, p = 0.5) </code></pre>
 <pre><code>## 
 ##  Exact binomial test
 ## 
-## data:  300 and 1035
-## number of successes = 300, number of trials = 1035, p-value &lt; 2.2e-16
+## data:  300 and 555
+## number of successes = 300, number of trials = 555, p-value = 0.06171
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
-##  0.2623620 0.3185488
+##  0.4980565 0.5825909
 ## sample estimates:
 ## probability of success 
-##              0.2898551</code></pre>
+##              0.5405405</code></pre>
 <p><strong>WHAT DO THESE RESULTS TELL US?</strong></p>
-<p>According to the test, we see that the observed distributions <strong>deviate</strong> from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting.</p>
+<p>According to the test, we see that the observed distributions <strong>do not deviate</strong> from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results do not present some evidence of sorting in this window.</p>
+<p>How about ±250?:</p>
+<pre class="r"><code>binom.test(115, 290, p = 0.5) </code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  115 and 290
+## number of successes = 115, number of trials = 290, p-value = 0.0005095
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.3398404 0.4553997
+## sample estimates:
+## probability of success 
+##              0.3965517</code></pre>
+<p><strong>WHAT DO THESE RESULTS TELL US?</strong></p>
+<p>According to the test, we see that the observed distributions <strong>deviate</strong> from expected distribution of observations into the two categories when we expect that units just around the threshold end up on either group by chance (coin flip logic, i.e., p = 0.5). In other words, this results present some evidence of sorting in this window.</p>
 <hr />
 <h4 style="color:#cc0065">
 McCrary Sorting test
