@@ -1,0 +1,420 @@
+---
+title: "Power Analysis"
+subtitle: "A simulation for Power Analysis"
+type: book
+weight: 5
+output:
+  blogdown:html_page:
+    theme: journal
+    highlight: tango
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(warning=F, message=F, fig.align = "center") 
+```
+
+
+##  Introduction!
+
+Welcome to our eleventh tutorial for the Statistics II: Statistical Modeling & Causal Inference (with R) course. 
+
+In this lab session we will develop our own simulation to understand the concept of power analysis a bit better.
+
+We will also learn to apply for-loops and functions!
+
+This session is heavily based on material provided by Nick Huntington-Klein. Check out his fantastic materials under https://nickch-k.github.io/EconometricsSlides/
+
+---
+
+#### Packages
+
+```{r warning=FALSE, message=FALSE}
+# These are the libraries we will use today. Make sure to install them in your console in case you have not done so previously.
+
+library(tidyverse)
+library(broom)
+
+set.seed(42) # for consistent results
+
+```
+
+---
+
+## Statistical Power
+
+Statistics is an area where the lessons of violent video games are more or less true: if you want to solve a really tough problem, you need to bring a whole lot of firepower.
+
+Once we have our study design down, there are a number of things that can turn statistical analysis into a fairly weak tool and make us less likely to find the truth:
+
+1. Really tiny effects are really hard to find
+2. Most statistical analyses are about looking at variation. If there’s little variation in the data, we won’t have much to go on
+3. If there’s a lot of stuff going on other than the effect we’re looking for, it will be hard to pull the signal from the noise
+4. If we have really high standards for what counts as evidence, then a lot of good evidence is going to be ignored so we need more evidence to make up for it
+
+Conveniently, all of these problems can be solved by increasing our firepower, by which we mean sample size. Power analysis is our way of figuring out exactly how much firepower we need to bring. If it’s more than we’re willing to provide, we might want to turn around and go back home.
+
+---
+
+### What Power Analysis Does
+
+Using X as shorthand for the treatment and Y as shorthand for the outcome, assuming we’re doing a power analysis for the a study of the relationship between X and Y, power analysis balances five things:
+
+1. The size of the effect (e.g. coefficient in a regression)
+2. The amount of variation in the treatment (the variance of X, say)
+3. The amount of other variation in Y (the R2, or the variation from the residual after explaining Y with X)
+4. Statistical precision (the standard error of the estimate, statistical power, i.e. the true-positive rate)
+5. The sample size
+
+A power analysis holds four of these constant and tells you what the fifth can be. So, for example, it might say “*if we think the effect is probably A, and there’s B variation in X, and there’s C variation in Y unrelated to X, and you want to have at least a D% chance of finding an effect if it’s really there, then you’ll need a sample size of at least E.*” This tells us the **minimum sample size** necessary to get sufficient statistical power.
+
+Or we can go in other directions. “*If you’re going to have a sample size of A, and there’s B variation in X, and there’s C variation in Y unrelated to X, and you want to have at least a D% chance of finding an effect if it’s really there, then the effect must be at least as large as E.*” This tells us the **minimum detectable effect**, i.e. the smallest effect you can hope to have a chance of reasonably measuring given your sample size.
+
+How about that “statistical precision” option? Usually, you have a target level of statistical power (thus the name “power analysis”). Statistical power is the true-positive rate. That is, if there’s truly an effect there, and sampling variation means that you have an 80% chance of rejecting the null of no-effect in a given sample, then you have 80% statistical power. Statistical power is dependent on the kind of test you’re running, too - if you are doing a hypothesis test at the 95% confidence level, you’re more likely to reject the null (and thus will have higher statistical power) than if you’re doing a hypothesis test at the 99% confidence level. The more careful you are about false positives, the more likely you are to get a false negative. So there’s a tradeoff there.
+
+In order to do power analysis, **you need to be able to fill in the values for four of those five pieces, so that power analysis can tell you the fifth one**. How do we know those things? In practical terms, power analysis isn’t a homework assignment, it’s guidance. It doesn’t need to be exact. A little guesswork (although ideally as little as possible) is necessary. After all, even getting the minimum sample size necessary doesn’t guarantee your analysis is good, it just gives you a pretty good chance of finding a result if it’s there. Often, people take the results of their power analysis as a baseline and then make sure to overshoot the mark, under the assumption they’ve been too conservative. So don’t worry about being accurate, just try to make the numbers in the analysis close enough to be useful.
+
+---
+
+## Simulation Example
+
+If the analysis you’re planning to do is a standard one, you can use one of many, many available “power analysis calculators” to do the work for you (for example, see http://powerandsamplesize.com/).
+
+However, running simulations in this context is a great way to i) understand power analysis and ii) apply your R skills! 
+
+---
+
+### Step 1: Make Up Data With The Properties We Want
+
+Lets have a look at two useful functions to implement simulations:
+
+`rnorm()` takes three arguments: the sample size, the mean, and the standard deviation. `rnorm(100, 0, 3)` produces 100 random normal draws from a normal distribution with a mean of 0 and a standard deviation of 3.
+
+`sample()` takes a bunch of arguments, but the important ones are the set to sample from, the sample size, replace, and prob. `sample(c('Treated','Untreated'), 500, replace = TRUE, prob = c(.2,.8))` produces 500 random observations that are either 'Treated' or 'Untreated'. Since prob = c(.2,.8), there’s a 20% chance of each draw being the first one ('Treated') and an 80% chance it’s the second ('Untreated'). You pretty much always want replace = TRUE since that says that you can get the same thing more than once (i.e. more than one 'Treated' observation).
+
+You can then design whatever sort of data you like - the data generating process is in your hands! You can use variables generated using random data to create other variables as well - now you have a causal link!
+
+**Our setting:**
+
+In this case, imagine you have been tasked with analyzing an experiment run by a big multinational firm. A random subset of managers (treatment group) is supposed to receive a workshop on the climate change related consequences of flying and potential ways of replacing in-person meetings with international clients with online alternatives. The outcome of interest is the amount of kilometers flown to and from business meetings.
+
+Let's construct a simulated dataset reflecting the true relationship:
+
+```{r}
+# Make a tibble (or data.frame) to contain our data
+tib <- tibble::tibble(
+  # Start by creating the variables that don't depend on anything else
+  # Around 20% of managers are supposed to take the workshop (1), and the remaining 80% will be the control group (0)
+  #You will receive data on 1000 managers
+  workshop = sample(c(1,0), 1000, replace = TRUE, prob = c(.2,.8))
+) %>%
+  # Then mutate in any variables that depend on earlier variables
+  # Don't forget to add additional noise!
+  # The *true effect* of workshop on kms_flown is -90km
+  dplyr::mutate(kms_flown = -90*workshop + rnorm(1000, mean = 4000, sd = 1000))
+
+```
+
+Just from this construction we have set: 
+
+(a) the true effect of X on Y (i.e, a reduction of 90km flown),
+(b) the amount of variation in X (by the characteristics of the binomial distribution),
+(c) the amount of variation in Y not coming from X (it’s a normal distribution with a mean of 4000km and standard deviation of 1000km),
+(d) the sample size (1000 managers).
+
+---
+
+<h4 style="color:#cc0065">Let's see what we simulated</h4>
+
+```{r, eval=FALSE}
+ggplot(tib, aes(x=kms_flown, fill=factor(workshop))) +
+  geom_density(alpha = 0.5) +
+  scale_fill_manual(name = "Workshop",
+                    values = c("#a7a8aa", "#cc0055"),
+                    labels = c("Control", "Treatment")) +
+  labs(x = "Distance flown by manager (kms)",
+       y = "Density") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+  
+```
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/165579120-f28b782e-334f-4375-b536-60d84219cc12.png")
+```
+
+---
+
+### Step 2: Perform the Analysis
+
+Given that we are planning an experiment, we will regress Y on X to get the causal effect of the workshop on kms flown.
+
+```{r}
+model<-lm(kms_flown ~ workshop, data = tib)
+modelsummary::modelsummary(model,
+             fmt = 2,
+             gof_omit = "AIC|BIC|Log.Lik.",
+             statistic = "conf.int",
+             stars = T)
+```
+
+
+```{r}
+tidy(model)
+
+# Let's extract the p-value on the coefficient of interest
+tidy(model)$p.value[2]
+# And if we're just interested in significance, say at the 95% level...
+sig <- tidy(model)$p.value[2] <= .05
+sig
+```
+
+With this particular sample of simulated data, our experimental design does not detect any significant effect of the treatment on the outcome. But...
+
+---
+
+### Step 3: Repeat!
+
+...of course, this is only one generated data set. That doesn’t tell us much of anything about the sampling variation! So we need to do this all a bunch of times, maybe a few thousand, and see what we get.
+
+While an R purist would probably opt for doing this with one of the `apply()` functions, for simplicity we’re just going to use the good ol’ for() loop.
+
+`for (iterator in range) { code }` will run the code code a bunch of times, each time setting the iterator variable to a different value in range, until it’s tried all of them, like this:
+
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+```
+
+We’re going to take all of the steps we’ve done so far and put them inside those curly braces {}. Then we’re going to repeat the whole process a bunch of times!
+
+```{r, eval = F, results='hide'}
+for (i in 1:2000) {
+  # Have to re-create the data EVERY TIME or it will just be the same data over and over
+  tib <- tibble::tibble(
+    workshop = sample(c(1,0), 1000, replace = TRUE, prob = c(.2,.8))
+  ) %>%
+    dplyr::mutate(kms_flown = -90*workshop + rnorm(1000, mean = 4000, sd = 1000))
+  
+  # Run the analysis
+  model <- lm(kms_flown ~ workshop, data = tib)
+  
+  # Get the results
+  coef_on_X <- tidy(model)$estimate[2]
+  print(coef_on_X)
+  sig <- tidy(model)$p.value[2] <= .05
+  print(sig)
+}
+
+```
+
+If we run this code, it will generate our data 2000 times (i in 1:2000) and run the analysis on each of those data sets. Then it will get the coefficient on X and whether it’s significant at the 95% level and print those to screen.
+
+Of course, this will just leave us with 2000 results printed to screen. Not that useful!
+
+---
+
+### Step 4: Store the Results
+
+So instead of printing to screen, we’re going to save all of the results so we can look at them afterwards.
+
+We’ll start by creating some blank vectors to store our data in, like `results <- c()`. Then, as we do the analysis over and over, instead of printing the results to screen, we can store them in `results[i]`, which will put it in the $i^{th}$ position of the vector, adding on new elements as i grows higher and higher with our for() loop.
+
+```{r}
+
+coef_results <- c()
+sig_results <- c()
+
+for (i in 1:2000) {
+# Have to re-create the data EVERY TIME or it will just be the same data over and over
+  tib <- tibble::tibble(
+    workshop = sample(c(1,0), 1000, replace = TRUE, prob = c(.2,.8))
+  ) %>%
+    dplyr::mutate(kms_flown = -90*workshop + rnorm(1000, mean = 4000, sd = 1000))
+  
+  # Run the analysis
+  model <- lm(kms_flown ~ workshop, data = tib)
+  
+  # Get the results
+  coef_results[i] <- tidy(model)$estimate[2]
+  sig_results[i] <- tidy(model)$p.value[2] <= .05
+}
+
+```
+
+---
+
+### Step 5: Examine the Results
+
+Our true effect is -90km. Our estimate of statistical power is the proportion of the results that are significantly different from zero:
+
+```{r}
+mean(sig_results)
+```
+
+So we have statistical power of around 21%. Even though we know the true parameter is -90km, only in 21% of the cases is the coefficient estimate significant!
+
+We might also want to check the distribution of the coefficient estimate directly with geom_density() in `ggplot2` to make sure it looks appropriate and there aren’t weird outliers implying a super sensitive analysis. 
+
+```{r}
+results_tibble <- tibble::tibble(coef = coef_results,
+                                 sig = sig_results)
+
+```
+
+```{r eval = F}
+ggplot(results_tibble, aes(x = coef)) + 
+  geom_density() + 
+  geom_vline(xintercept = -90, linetype="dotted",  color = "#cc0065") +
+  # Prettify!
+  theme_minimal() + 
+  labs(x = 'Coefficient', y = 'Density')
+```
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/165579130-dd855e74-9019-4206-8ba3-809fa3884a23.png")
+```
+
+```{r eval=F}
+ggplot(results_tibble, aes(x = sig, fill = sig)) + 
+  geom_bar() + 
+  # Prettify!
+  theme_minimal() + 
+  labs(x = 'Coefficient', y = 'Count') + 
+  scale_x_discrete(labels = c('Insignificant','Significant')) +
+  scale_fill_manual(values = c("#a7a8aa", "#cc0055")) +
+  theme(legend.position = "none")
+```
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/165579137-71f87545-ac16-4bd1-935c-de24ccbef59c.png")
+```
+
+---
+
+## Change and Compare!
+
+The goal of power analysis isn’t usually to just take one set of data-generating characteristics and generate a single power estimate, it’s to do things like calculate the minimum detectable effect or smallest sample size for a given power level.
+
+How can we do that here? By trying different values of effect size and sample size and seeing what we get.
+
+To do this, we’re first going to take everything we’ve done so far and put it inside a function. This function will be called `my_power_function` and take two arguments: "effect" (the effect of X on Y) and "sample_size". We will be able to later change this inputs when applying the function and compare the results! The function **will return the share power of your estimates based on the two given inputs**. 
+
+```{r}
+my_power_function <- function(effect, sample_size) {
+  sig_results <- c()
+  
+  for (i in 1:500) { #Noticed that we only repeat 500 times in order to speed calculations
+    # Have to re-create the data EVERY TIME or it will just be the same data over and over
+    tib <- tibble::tibble(
+    workshop = sample(c(1,0), sample_size, replace = TRUE, prob = c(.2,.8))
+  ) %>%
+    dplyr::mutate(kms_flown = effect*workshop + rnorm(sample_size, mean = 4000, sd = 1000))
+  
+  # Run the analysis
+  model <- lm(kms_flown ~ workshop, data = tib)
+    
+    # Get the results
+    sig_results[i] <- tidy(model)$p.value[2] <= .05
+  }
+  
+  sig_results %>%
+    mean() %>%
+    return()
+}
+
+```
+
+Now we can just call the function, setting effect and sample_size to whatever we want, and get the power back! Let’s check it with the values we had before and make sure we’re in the same range:
+
+
+```{r}
+my_power_function(-90, 1000)
+```
+
+
+Seems good!
+
+Now let’s say we really are stuck with a sample size of 1000 and we want to know the minimum detectable effect size we can get a power of .8 with. To do this, we can just run our function with sample_size = 1000 and a bunch of different effect values until we get back a power above .8!
+
+```{r}
+power_levels <- c()
+
+effects_to_try <- c(-10, -90, -200, -250 ,-300, -400, -500)
+
+for (i in 1:length(effects_to_try)) {
+  power_levels[i] <- my_power_function(effects_to_try[i], 1000)
+}
+
+# Where do we cross 80%?
+power_results <- tibble(effect = effects_to_try,
+                        power = power_levels)
+power_results
+```
+
+
+```{r eval = F}
+ggplot(power_results, 
+       aes(x = effect, y = power)) +
+  geom_line(color = '#cc0065', size = 1.5) + 
+  # add a horizontal line at 90%
+  geom_hline(aes(yintercept = .8), linetype = 'dashed') + 
+  # Prettify!
+  theme_minimal() + 
+  scale_y_continuous(labels = scales::percent) + 
+  labs(x = 'Linear Effect Size', y = 'Power')
+```
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/165579153-5cda2355-a8b3-4e98-8459-b231392ecd8f.png")
+```
+
+So it looks like we need an effect around "-225" or greater to have an 80% chance of finding a significant result. If we don’t think the effect is actually likely to be that large, then we need to figure out something else to do - for example, get a bigger sample!
+
+Imagine that you are convinced that the true effect will be a reduction of kms flown of 90km. What sample size would you need to detect this effect? 
+
+
+```{r}
+power_levels <- c()
+
+sample_sizes_to_try <- c(1000, 3000, 5000, 7000)
+
+for (i in 1:length(sample_sizes_to_try)) {
+  power_levels[i] <- my_power_function(-90, sample_sizes_to_try[i])
+}
+
+# Where do we cross 80%?
+power_results <- tibble(sample_size = sample_sizes_to_try,
+                        power = power_levels)
+power_results
+
+```
+
+```{r eval = F}
+ggplot(power_results, 
+       aes(x = sample_size, y = power)) +
+  geom_line(color = 'red', size = 1.5) + 
+  # add a horizontal line at 90%
+  geom_hline(aes(yintercept = .8), linetype = 'dashed') + 
+  # Prettify!
+  theme_minimal() + 
+  scale_y_continuous(labels = scales::percent) + 
+  labs(x = 'Sample Size', y = 'Power')
+```
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/54796579/165579162-b99c0193-7ca8-4502-85ad-86d163fcfda0.png")
+```
+
+
+You would need a sample size of around 7000 to have an 80% chance of finding a significant result!
+
+Now it's your turn! 
+
+Try and adapt the function so that you can vary other parameters that have an effect on power. For example, you could try to change the proportion of managers getting the treatment, the standard deviation of the noise affecting Y or the significance levels that you are willing to accept for your coefficient of interest. 
+
+---
